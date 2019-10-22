@@ -1,5 +1,6 @@
 # decar-animate
 
+## Building the animation
 This repository is a library of different 3D animation classes. These animations are entirely position and DCM-based. To create an animation, start by creating an animation object
 
     ani = Animation()
@@ -26,3 +27,5 @@ You may also create `n` copies of a specific graphical entity using
 
     n = 3
     ani.addElement(AnimatedBox, n)
+    
+## Updating the animation

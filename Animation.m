@@ -6,16 +6,14 @@ classdef Animation < handle
     
     methods
         function self = Animation(figNum)
-            if nargin == 0
-                self.figureNumber = [];
-            else
+            if exist('figNum','var')
                 self.figureNumber = figNum;
             end
 
         end
         
         function addElement(self, element, numberOfCopies)
-            
+            % Add a graphic element to the list
             className = class(element);
             searching = true;
             ind = 1;
@@ -40,12 +38,14 @@ classdef Animation < handle
         end
         
         function build(self)
+            % Initialize all the graphic elements and create figure
+            
             if isempty(self.figureNumber)
                 figure
             else
                 figure(self.figureNumber)
             end
-            
+            cla
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
             
@@ -59,8 +59,6 @@ classdef Animation < handle
 
             end
             hold off
-            
-            
             axis vis3d
             
         end 
@@ -71,10 +69,9 @@ classdef Animation < handle
             numElements = numel(elementNames);
             for lv1 = 1:numElements
                 elementObj = self.elements.(elementNames{lv1});
-                elementObj.plot(r(:,lv1), eye(3))
-
+                elementObj.update(r(:,lv1), C(:,:,lv1))
             end
-            axis([-inf inf -inf inf -inf inf])
+           
             grid on
         end    
     end

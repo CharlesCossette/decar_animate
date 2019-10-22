@@ -37,7 +37,7 @@ classdef AnimatedCone < handle
             [R,THETA] = meshgrid(radii,alph);
             Xcone = R.*cos(THETA);
             Ycone = R.*sin(THETA);
-            Zcone = R./self.baseRadius*self.length;
+            Zcone = R./s;
             self.conePoints = [Xcone(:).' ; Ycone(:).' ; Zcone(:).'];
             
             
@@ -63,19 +63,8 @@ classdef AnimatedCone < handle
             
         end
         
-        function update(self,r_zw_a, C_ba)
-             % Rotate and translate
-            conePointsRot = C_ba.'*self.conePoints + r_zw_a;
-            
-            % Reshape data into matrices
-            xCone = reshape(conePointsRot(1,:),[],self.meshResolution);
-            yCone = reshape(conePointsRot(2,:),[],self.meshResolution);
-            zCone = reshape(conePointsRot(3,:),[],self.meshResolution);
-            
-            % Update data
-            self.figureHandle.XData = xCone;
-            self.figureHandle.YData = yCone;
-            self.figureHandle.ZData = zCone;
+        function update(obj,posCone,Cba,colour)
+
         end
     end
 end

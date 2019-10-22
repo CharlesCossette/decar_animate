@@ -32,7 +32,7 @@ classdef Animation < handle
                 
             if exist('numberOfCopies','var')
                 for lv1 = ind + 1:numberOfCopies
-                    self.elements.(strcat(className,num2str(lv1))) = element;
+                    self.elements.(strcat(className,num2str(lv1))) = eval(className);
                 end
             end
         end

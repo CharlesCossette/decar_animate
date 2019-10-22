@@ -35,6 +35,7 @@ classdef AnimatedBox < handle
             figHandle = patch(verticesX, verticesY, verticesZ, self.faceColor);
             self.figureHandle = figHandle;
             axis vis3d
+            view(3)
         end
  
         

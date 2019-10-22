@@ -15,7 +15,7 @@ classdef AnimatedCylinder < handle
         function self = AnimatedCylinder()
             self.radius = 1;
             self.height = 3;    
-            self.meshResolution = 30;
+            self.meshResolution = 10;
         end
         
         function plot(self, r_zw_a, C_ba)
@@ -23,14 +23,10 @@ classdef AnimatedCylinder < handle
             
             Zcyl = Zcyl.*self.height - self.height/2;
             self.cylPoints = [Xcyl(:).';Ycyl(:).';Zcyl(:).'];
+
+            self.figureHandle = surf(Xcyl,Ycyl,Zcyl);
             
-            cylPointsRot = C_ba.'*self.cylPoints + r_zw_a;
-            
-            % Plot
-            xCyl = reshape(cylPointsRot(1,:),[],self.meshResolution + 1);
-            yCyl = reshape(cylPointsRot(2,:),[],self.meshResolution + 1);
-            zCyl = reshape(cylPointsRot(3,:),[],self.meshResolution + 1);
-            self.figureHandle = surf(xCyl,yCyl,zCyl);
+            self.update(r_zw_a, C_ba);
 
         end
         

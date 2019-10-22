@@ -53,6 +53,7 @@ classdef AnimatedCone < handle
             axis vis3d
             
             % Make cone colour
+            % TODO - parameterize visual properties
             self.figureHandle.FaceColor = self.faceColor;
             alpha(self.figureHandle,0.1)
             self.figureHandle.LineStyle = '-';

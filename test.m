@@ -2,7 +2,7 @@ clear all
 
 ani = Animation(1);
 
-ani.addElement(AnimatedCone)
+ani.addElement(AnimatedCylinder)
 ani.addElement(AnimatedBox)
 
 

@@ -59,6 +59,7 @@ classdef Animation < handle
 
             end
             hold off
+            axis equal
             axis vis3d
             
         end 

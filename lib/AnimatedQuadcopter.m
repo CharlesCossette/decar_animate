@@ -22,12 +22,12 @@ classdef AnimatedQuadcopter < handle
         
         function plot(self, r_zw_a, C_ba)
             hold on
-            
             self.hub = AnimatedBox();
             self.hub.length = 0.3*self.scale;
             self.hub.width = 0.3*self.scale;
             self.hub.height = 0.1*self.scale;
             self.hub.plot(r_zw_a, C_ba);
+            
             
             self.arm1 = AnimatedCylinder();
             self.arm1.radius = 0.05*self.scale;

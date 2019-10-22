@@ -18,7 +18,7 @@ C = cat(3,C1_DCM(deg2rad(35)),C1_DCM(deg2rad(-35)),C3_DCM(deg2rad(35)),C2_DCM(de
 C = cat(3, C, C);
 ani.update(r,C)
 
-axis([-inf inf -inf inf -inf inf])
+
 pause(eps)
 end
 toc

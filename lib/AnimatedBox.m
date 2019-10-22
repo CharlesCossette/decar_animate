@@ -9,6 +9,7 @@ classdef AnimatedBox < handle
         edgeColor
         
         vertices
+        boxPoints
         figureHandle
         
     end
@@ -24,47 +25,44 @@ classdef AnimatedBox < handle
         end
         
         function plot(self,r_zw_a,C_ba)
-            V_b = self.updateVertices();
+          
+            self.updatePoints()
+            X = reshape(self.boxPoints(1,:),4,5);
+            Y = reshape(self.boxPoints(2,:),4,5);
+            Z = reshape(self.boxPoints(3,:),4,5);
             
-            V_a = C_ba.'*V_b + r_zw_a;
-            
-            verticesX = reshape(V_a(1,:), [4 6]);
-            verticesY = reshape(V_a(2,:), [4 6]);
-            verticesZ = reshape(V_a(3,:), [4 6]);
-            
-            figHandle = patch(verticesX, verticesY, verticesZ, self.faceColor);
+            figHandle = surf(X, Y, Z);
             self.figureHandle = figHandle;
-            axis vis3d
-            view(3)
+            self.update(r_zw_a, C_ba)
         end
  
         
         function update(self, r_zw_a, C_ba)
-            V_b = self.updateVertices();
-           
-            V_a = C_ba.'*V_b + r_zw_a;
+            self.updatePoints();
+
+            boxRot = C_ba.'*self.boxPoints + r_zw_a;
             
-            verticesX = reshape(V_a(1,:), [4 6]);
-            verticesY = reshape(V_a(2,:), [4 6]);
-            verticesZ = reshape(V_a(3,:), [4 6]);
+            xRot = reshape(boxRot(1,:),4,5);
+            yRot = reshape(boxRot(2,:),4,5);
+            zRot = reshape(boxRot(3,:),4,5);
             
-            self.figureHandle.XData = verticesX;
-            self.figureHandle.YData = verticesY;
-            self.figureHandle.ZData = verticesZ;
+            self.figureHandle.XData = xRot;
+            self.figureHandle.YData = yRot;
+            self.figureHandle.ZData = zRot;
             
         end
         
     end
-    methods (Access = private)
-        function  V = updateVertices(self)
-                        
-            verticesX = [[1;1;1;1],[1;1;-1;-1],[-1;-1;-1;-1],[-1;-1;1;1],[1;1;-1;-1],[1;1;-1;-1]]*self.length/2;
-            verticesY = [[1;1;-1;-1],[1;1;1;1],[-1;-1;1;1],[-1;-1;-1;-1],[-1;1;1;-1],[-1;1;1;-1]]*self.width/2;
-            verticesZ = [[1;-1;-1;1],[1;-1;-1;1],[1;-1;-1;1],[1;-1;-1;1],[1;1;1;1],[-1;-1;-1;-1]]*self.height/2;
-            V = [verticesX(:).'; verticesY(:).'; verticesZ(:).'];
-            self.vertices = V;
-            
+     methods (Access = private)
+        function updatePoints(self)
+
+            % Get box points for the specific points
+            xRect = [0 0 0 0 0; -1 -1 1 1 -1; -1 -1 1 1 -1; 0 0 0 0 0]*self.length/2;
+            yRect = [0 0 0 0 0; -1 1  1 -1 -1;  -1 1 1 -1 -1; 0 0 0 0 0]*self.width/2;
+            zRect = [-1 -1 -1 -1 -1;-1 -1 -1 -1 -1; 1 1 1 1 1; 1 1 1 1 1]*self.height/2;
+            self.boxPoints   = [xRect(:).' ; yRect(:).' ; zRect(:).'];
+%             
         end
-    end
+     end
 end
 

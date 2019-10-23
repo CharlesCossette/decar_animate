@@ -1,10 +1,16 @@
 classdef AnimatedQuadcopter < handle
+    % Quadcopter visual model - an element of elements.
     properties
+        % Position and attitude
         r
         C
         
+        % Visual properties
         scale
+        % propWidth
+        % hubWidth ... etc
         
+        % Sub elements
         hub 
         arm1
         arm2
@@ -17,10 +23,15 @@ classdef AnimatedQuadcopter < handle
     methods
         function self = AnimatedQuadcopter()
             self.scale = 2;      
-            
         end
         
         function plot(self, r_zw_a, C_ba)
+            % BUILD - this function gets called during the animation build.
+            % it is what actually creates the graphic object in the first
+            % place.
+            
+            % TODO - parameterize relative component sizing.
+            % Add center "hub" or "base" of quadcopter.
             hold on
             self.hub = AnimatedBox();
             self.hub.length = 0.3*self.scale;
@@ -28,7 +39,7 @@ classdef AnimatedQuadcopter < handle
             self.hub.height = 0.1*self.scale;
             self.hub.plot(r_zw_a, C_ba);
             
-            
+            % Add two arms which link opposing props.
             self.arm1 = AnimatedCylinder();
             self.arm1.radius = 0.05*self.scale;
             self.arm1.height = sqrt(2)*self.scale;
@@ -39,6 +50,7 @@ classdef AnimatedQuadcopter < handle
             self.arm2.height = sqrt(2)*self.scale;
             self.arm2.plot(r_zw_a, C_ba);
             
+            % Add four props.
             self.prop1 = AnimatedCone();
             self.prop1.baseRadius = 0.25*self.scale;
             self.prop1.length = 0;
@@ -60,6 +72,7 @@ classdef AnimatedQuadcopter < handle
             self.prop4.plot(r_zw_a, C_ba);
             hold off
             
+            % All figure are now created - update all the data.
             self.update(r_zw_a, C_ba)
         end
         
@@ -96,6 +109,7 @@ classdef AnimatedQuadcopter < handle
     end
     
     methods (Access = private)
+        % Principle DCMS are used to assemble quadopter.
         function C = C1_DCM(~, theta)
 
             C = [1         0          0;

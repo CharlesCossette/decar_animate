@@ -16,7 +16,12 @@ classdef Animation < handle
         end
         
         function addElement(self, element, numberOfCopies)
-            % Add a graphic element to the list
+            % Add a graphic element to the list of elements in this
+            % animation. Requires a valid element object with plot(r,C) and
+            % update(r,C) functions. If numberOfCopies is specified, this
+            % will also create multiple instances of the provided element.
+            % TODO  - incorporate custom properties
+            
             className = class(element);
             searching = true;
             ind = 1;
@@ -43,19 +48,21 @@ classdef Animation < handle
         function build(self)
             % Initialize all the graphic elements and create figure
             
-            if isempty(self.figureNumber)
-                self.figureHandle = figure;
-                self.figureNumber = get(self.figureHandle, 'Number');
-            else
-                self.figureHAndle = figure(self.figureNumber);
-            end
-            
-            self.axesHandle = axes();
+            % Get current axes (if they exist, will create one otherwise)
+            self.axesHandle = gca;
+            % Clear content on axes
+            cla
+            % 3D view default. This can be changed after the build
+            axis equal
+            axis vis3d
+            grid on
             view(3)
             
+            % Get elements in current animation object
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
             
+            % Loop through each element object and run plot(r,C) method
             hold off
             elementObj = self.elements.(elementNames{1});
             elementObj.plot([0;0;0], eye(3))
@@ -66,12 +73,13 @@ classdef Animation < handle
 
             end
             hold off
-            axis equal
-            axis vis3d
+            
             
         end 
         
         function update(self,r,C)
+            % Updates all the positions and attitudes of all graphic
+            % elements by running the update(r,C) method of all elements.
             
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
@@ -79,8 +87,6 @@ classdef Animation < handle
                 elementObj = self.elements.(elementNames{lv1});
                 elementObj.update(r(:,lv1), C(:,:,lv1))
             end
-           
-            grid on
         end    
     end
 end

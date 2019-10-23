@@ -5,18 +5,19 @@ classdef AnimatedCone < handle
     %   Detailed explanation goes here
     
     properties
-        % Cone properties
+        % Position and attitude
         r
         C
+        
+        % Visual properties
         baseRadius
         length
-        
-        % Plotting attributes
-        conePoints
         faceColor
         edgeColor
         meshResolution
         
+        % Internal variables
+        conePoints        
         figureHandle
     end
     
@@ -29,7 +30,9 @@ classdef AnimatedCone < handle
         end
         
         function plot(self,r_zw_a,C_ba)
-            %PLOT the cone
+            % BUILD - this function gets called during the animation build.
+            % it is what actually creates the graphic object in the first
+            % place.
             
             % Create the mesh of the cone         
             radii = linspace(0,self.baseRadius,self.meshResolution);      

@@ -3,29 +3,44 @@
 ## Building the animation
 This repository is a library of different 3D animation classes. These animations are entirely position and DCM-based. To create an animation, start by creating an animation object
 
-    ani = Animation()
+    ani = Animation() 
 
 You can then add "elements" to this animation and display the first instance,
 
+    ani.Animation()
     box1 = AnimatedBox()
     cone1 = AnimatedCone()
     ani.addElement(box1)
     ani.addElement(cone1)
     ani.build
     
+The `ani.build` function intializes all the elements and generates them within a figure. This must be done before running the animation.You may skip instantiating the class and put the class name directly in the `ani.addElement()` method,
+
+    ani = Animation()
+    ani.addElement(AnimatedBox)
+    ani.build
+    
+You may also create `n = 3` copies of a specific graphical entity using
+
+    ani.Animation()
+    ani.addElement(AnimatedBox, 3)
+    ani.build
+    
+See this for yourself by typing `ani.elements` in the command window!
+
+## Updating the animation
+Once your animation has been built, you may use the `ani.update(r,C)` function to translate and rotate the elements. 
+
+`r` is a **[3 x number of elements]** matrix that contains the positions of the elements relative to the figure frame origin, resolved in the figure frame (r_zw_a).
+
+`C` is a **[3 x 3 x number of elements]** matrix of Direction Cosine Matrices (DCMs) that describe the elements' attached body frames to the figure frame (C_ba).
+
+NOTE: the order of the different positions in the `r` and `C` matrices correspond to the elements *in the order in which they were added*. 
+
+## Creating a new element class
 Elements are simply graphical entities that will appear in the plot. The argument of `ani.addElement()` must be a valid animation object with appropriate `plot(r,C)` and `update(r,C)` functions. For instance,
 
     box1 = AnimatedBox()
     box1.plot(r,C)
 
-will display a figure with a 1-by-1-by-1 box centered at `r`, and `C = C_ba` is a DCM relating an attached frame to the local coordinate frame. Alternatively, you may skip instantiating the class and put the class name directly in the `ani.addElement()` method,
-
-    ani = Animation()
-    ani.addElement(AnimatedBox)
-    
-You may also create `n` copies of a specific graphical entity using
-
-    n = 3
-    ani.addElement(AnimatedBox, n)
-    
-## Updating the animation
+will display a figure with a 1-by-1-by-1 box centered at `r`, and `C = C_ba` is a DCM relating an attached frame to the local coordinate frame

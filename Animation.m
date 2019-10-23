@@ -2,6 +2,9 @@ classdef Animation < handle
     properties
         figureNumber
         elements
+        axesHandle
+        figureHandle
+        
     end
     
     methods
@@ -41,11 +44,15 @@ classdef Animation < handle
             % Initialize all the graphic elements and create figure
             
             if isempty(self.figureNumber)
-                figure
+                self.figureHandle = figure;
+                self.figureNumber = get(self.figureHandle, 'Number');
             else
-                figure(self.figureNumber)
+                self.figureHAndle = figure(self.figureNumber);
             end
-            cla
+            
+            self.axesHandle = axes();
+            view(3)
+            
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
             

@@ -14,12 +14,12 @@ x0      = [r_z1w_a;r_z2w_a;r_z3w_a;r_z4w_a];
 tSpan = linspace(0,10,16*10);
 k_col = 0;
 [t,x] = ode45(@(t,x) swarmODE4(t,x,k_col), tSpan, x0);
-data1 = PostProcessing(t,x,@(t,x) swarmODE4(t,x,k_col));
+data1 = getSimData(t,x,@(t,x) swarmODE4(t,x,k_col));
 
 
 k_col = 1;
 [t,x] = ode45(@(t,x) swarmODE4(t,x,k_col), tSpan, x0);
-data2 = PostProcessing(t,x,@(t,x) swarmODE4(t,x,k_col));
+data2 = getSimData(t,x,@(t,x) swarmODE4(t,x,k_col));
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Build Animation
@@ -108,7 +108,7 @@ data.errorNorm = norm(e);
 end
 
 
-function data = PostProcessing(t,x,simFunc)
+function data = getSimData(t,x,simFunc)
 
     
    data = [];

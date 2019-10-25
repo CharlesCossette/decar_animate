@@ -14,8 +14,8 @@ You can then add "elements" to this animation and display the first instance,
     ani.addElement(cone1)
     ani.build
     
-The `ani.build` function intializes all the elements and generates them within a figure. This must be done before running the animation.You may skip instantiating the class and put the class name directly in the `ani.addElement()` method,
-
+The `ani.build` function intializes all the elements and generates them within a figure. This must be done before running the animation. You may skip instantiating the class and put the class name directly in the `ani.addElement()` method,
+    
     ani = Animation()
     ani.addElement(AnimatedBox)
     ani.build
@@ -29,13 +29,56 @@ You may also create `n = 3` copies of a specific graphical entity using
 See this for yourself by typing `ani.elements` in the command window!
 
 ## Updating the animation
-Once your animation has been built, you may use the `ani.update(r,C)` function to translate and rotate the elements. 
+Once your animation has been built, you may use
 
-`r` is a **[3 x number of elements]** matrix that contains the positions of the elements relative to the figure frame origin, resolved in the figure frame (r_zw_a).
+    ani.update(r,C)
+    
+to translate and rotate the elements. 
+
+`r` is a **[3 x number of elements]** matrix that contains the positions of the elements (usually their centroids) relative to the figure frame origin, resolved in the figure frame (r_zw_a).
 
 `C` is a **[3 x 3 x number of elements]** matrix of Direction Cosine Matrices (DCMs) that describe the elements' attached body frames to the figure frame (C_ba).
 
-NOTE: the order of the different positions in the `r` and `C` matrices correspond to the elements *in the order in which they were added*. 
+**NOTE: the order of the different positions in the `r` and `C` matrices correspond to the elements *in the order in which they were added*. **
+
+The `ani.update(r,C)` can be inserted inside a loop to create a moving animation.
+
+## Customizing the appearances
+### Customizing the elements themselves
+TODO - currently impossible to change the properties of the elements themselves (say, the faceColor of a box).
+
+### Customizing the plots
+The default appearance of the animations can easily be changed after building.
+
+    ani.Animation()
+    ani.addElement(AnimatedBox, 3)
+    ani.build
+    
+    axis([0 10 -5 10 -inf inf])
+    title('My Animation')
+    xlabel('North')
+    ylabel('East')
+    zlabel('Altitude')
+    grid on
+
+The animation class does not enforce any figure or axis properties apart from some default values when it builds.
+
+## Multiple Animations in Subplots
+Want multiple different animations side by side? No problem! 
+
+    figure(1)
+    subplot(1,2,1)
+    ani1 = Animation()
+    ani1.addElement(AnimatedBox())
+    ani1.build
+    
+    subplot(1,2,2)
+    ani2 = Animation()
+    ani2.addElement(AnimatedBox())
+    ani2.build
+    
+Each animation can then be updated using `ani1.update(r,C)` and `ani2.update(r,C)` and so on. See the `swarmControl1` demo!
+
 
 ## Creating a new element class
 Elements are simply graphical entities that will appear in the plot. The argument of `ani.addElement()` must be a valid animation object with appropriate `plot(r,C)` and `update(r,C)` functions. For instance,

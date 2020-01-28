@@ -59,6 +59,9 @@ classdef AnimatedCylinder < handle
             self.figureHandle.YData = yCyl;
             self.figureHandle.ZData = zCyl;
             
+            % Save to object
+            self.r = r_zw_a;
+            self.C = C_ba;
         end
     end
 end

@@ -29,7 +29,7 @@ classdef AnimatedQuadcopter < handle
             % BUILD - this function gets called during the animation build.
             % it is what actually creates the graphic object in the first
             % place.
-            
+
             % TODO - parameterize relative component sizing.
             % Add center "hub" or "base" of quadcopter.
             hold on
@@ -103,6 +103,10 @@ classdef AnimatedQuadcopter < handle
             self.prop2.update(r_p2w_a, C_ba)
             self.prop3.update(r_p3w_a, C_ba)
             self.prop4.update(r_p4w_a, C_ba)
+            
+            % Save to object
+            self.r = r_zw_a;
+            self.C = C_ba;
         end
         
         

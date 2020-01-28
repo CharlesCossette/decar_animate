@@ -1,6 +1,6 @@
 clearvars
-%close all
-
+close all
+%% First we simulate some data so we have something to show.
 % Initial conditions
 r_z1w_a = [20;-20;10];
 r_z2w_a = [20;20;10];
@@ -21,6 +21,8 @@ k_col = 1;
 [t,x] = ode45(@(t,x) swarmODE4(t,x,k_col), tSpan, x0);
 data2 = getSimData(t,x,@(t,x) swarmODE4(t,x,k_col));
 
+
+%% Example begins here. 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Build Animation
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,10 +75,10 @@ if recording == true
 end
 
 
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Functions
+% Auxiliary Functions
 function [x_dot, data] = swarmODE4(t,x,k_col)
 % Single integrator dynamics ODE with simple proportional control law
 

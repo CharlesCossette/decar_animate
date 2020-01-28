@@ -80,6 +80,10 @@ classdef AnimatedCone < handle
             self.figureHandle.XData = xCone;
             self.figureHandle.YData = yCone;
             self.figureHandle.ZData = zCone;
+            
+            % Save to object
+            self.r = r_zw_a;
+            self.C = C_ba;
         end
     end
 end

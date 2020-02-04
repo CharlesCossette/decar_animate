@@ -83,9 +83,10 @@ classdef Animation < handle
             hold off
             elementObj = self.elements.(elementNames{1});
             elementObj.plot([0;0;0], eye(3))
-            hold on    
+            hold(self.axesHandle, 'on')     
             for lv1 = 2:numElements
                 elementObj = self.elements.(elementNames{lv1});
+                hold(self.axesHandle, 'on')   
                 elementObj.plot([0;0;0], eye(3))
             end
             hold off

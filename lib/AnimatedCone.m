@@ -1,5 +1,3 @@
-
-
 classdef AnimatedCone < handle
     %ANIMATEDCONE Summary of this class goes here
     %   Detailed explanation goes here
@@ -61,7 +59,7 @@ classdef AnimatedCone < handle
             alpha(self.figureHandle,0.1)
             self.figureHandle.LineStyle = '-';
             self.figureHandle.EdgeAlpha = 1;
-            self.figureHandle.EdgeColor = [.8 .8 .8];
+            self.figureHandle.EdgeColor = [.8 .8 .8]*0;
             self.figureHandle.SpecularColorReflectance = 0.5;
             self.figureHandle.FaceLighting = 'gouraud';
             

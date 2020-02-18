@@ -113,3 +113,5 @@ will display a figure with a 1-by-1-by-1 box centered at `r`, and `C = C_ba` is 
 - [ ] Write API for everything
 - [ ] Implement tests for everything
 - [ ] Expand customization of all the elements
+- [ ] Create element abstract class
+- [ ] Turn this repo into a MATLAB package?

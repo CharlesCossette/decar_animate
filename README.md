@@ -110,5 +110,6 @@ will display a figure with a 1-by-1-by-1 box centered at `r`, and `C = C_ba` is 
 
 - [ ] Develop ani.play(r,C) to play back a set of data in real-time by monitoring computer clock (or n times real-time). 
 - [ ] Develop ani.record(r,C) to record a video and save as .mp4 file (real-time or n times real-time).
-- [ ] write API for everything
-- [ ] implement tests for everything
+- [ ] Write API for everything
+- [ ] Implement tests for everything
+- [ ] Expand customization of all the elements

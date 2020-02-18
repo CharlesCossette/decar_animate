@@ -1,14 +1,7 @@
 # decar-animate
 
 ## Table of Contents
-- [Building the animation](#building-the-animation)
-- [Updating the animation](#updating-the-animation)
-- [Customizing the appearances](#customizing-the-appearances)
-  * [Customizing the elements themselves](#customizing-the-elements-themselves)
-  * [Customizing the plots](#customizing-the-plots)
-- [Multiple Animations in Subplots](#multiple-animations-in-subplots)
-- [Creating a new element class](#creating-a-new-element-class)
-- [TO DO](#to-do)
+[TOC]
 
 ## Building the animation
 This repository is a library of different 3D animation classes. These animations are entirely position and DCM-based. To create an animation, start by creating an animation object

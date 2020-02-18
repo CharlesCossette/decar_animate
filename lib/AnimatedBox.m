@@ -76,7 +76,6 @@ classdef AnimatedBox < handle
     end
      methods (Access = private)
         function updatePoints(self)
-
             % Get box points for the specific points
             % TODO - there is some criss-crossing on one of the surfaces.
             % Doesn't really affect much but its not pretty.

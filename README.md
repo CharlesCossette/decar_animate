@@ -22,7 +22,7 @@ The `ani.build` function intializes all the elements and generates them within a
     
 You may also create `n = 3` copies of a specific graphical entity using
 
-    ani.Animation()
+    ani = Animation()
     ani.addElement(AnimatedBox, 3)
     ani.build
     
@@ -45,12 +45,20 @@ The `ani.update(r,C)` can be inserted inside a loop to create a moving animation
 
 ## Customizing the appearances
 ### Customizing the elements themselves
-TODO - currently impossible to change the properties of the elements themselves (say, the faceColor of a box).
+This can be done by creating an instance of the element before adding it.
 
+    ani = Animation()
+    box = AnimatedBox()
+    box.length = 5
+    box.width = 3
+    box.height = 2
+    ani.addElement(box)
+
+    
 ### Customizing the plots
 The default appearance of the animations can easily be changed after building.
 
-    ani.Animation()
+    ani = Animation()
     ani.addElement(AnimatedBox, 3)
     ani.build
     

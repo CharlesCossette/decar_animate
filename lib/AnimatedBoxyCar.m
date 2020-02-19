@@ -30,6 +30,11 @@ classdef AnimatedBoxyCar < handle
         
         axle_width
         delta
+        
+        % Colors
+        color_body
+        color_wheel
+        color_axle
     end
     
     methods
@@ -45,6 +50,10 @@ classdef AnimatedBoxyCar < handle
             self.wheel_offset_v = self.wheel_radius*0.8;
             self.axle_width = 0.075;
             self.delta = delta;
+            
+            self.color_body = [0 0.4470 0.7410];
+            self.color_wheel = 'k'; 
+            self.color_axle = [104,104,104]/255;
         end
         
         function plot(self, r_zw_a, C_ba)
@@ -60,6 +69,7 @@ classdef AnimatedBoxyCar < handle
             self.body.length = self.l_f + self.l_r;
             self.body.width  = self.l_w;
             self.body.height = self.l_h;
+            self.body.faceColor = self.color_body;
             self.body.plot(r_zw_a, C_ba);
             
             % Add wheels
@@ -67,6 +77,7 @@ classdef AnimatedBoxyCar < handle
             self.wheel_fl = AnimatedCylinder();
             self.wheel_fl.radius = self.wheel_radius;
             self.wheel_fl.height = self.wheel_thickness;
+            self.wheel_fl.faceColor = self.color_wheel;
             r_pz_b = [self.l_f - self.wheel_offset_h/2; self.l_w/2 + self.wheel_offset_v;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([pi/2;0;delta]);
@@ -75,6 +86,7 @@ classdef AnimatedBoxyCar < handle
             self.wheel_fr = AnimatedCylinder();
             self.wheel_fr.radius = self.wheel_radius;
             self.wheel_fr.height = self.wheel_thickness;
+            self.wheel_fr.faceColor = self.color_wheel;
             r_pz_b = [self.l_f - self.wheel_offset_h/2; -self.l_w/2 - self.wheel_offset_v;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([-pi/2;0;delta]);
@@ -83,6 +95,7 @@ classdef AnimatedBoxyCar < handle
             self.wheel_rl = AnimatedCylinder();
             self.wheel_rl.radius = self.wheel_radius;
             self.wheel_rl.height = self.wheel_thickness;
+            self.wheel_rl.faceColor = self.color_wheel;
             r_pz_b = [-self.l_r + self.wheel_offset_h; self.l_w/2 + self.wheel_offset_v;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([pi/2;0;0]);
@@ -91,6 +104,7 @@ classdef AnimatedBoxyCar < handle
             self.wheel_rr = AnimatedCylinder();
             self.wheel_rr.radius = self.wheel_radius;
             self.wheel_rr.height = self.wheel_thickness;
+            self.wheel_rr.faceColor = self.color_wheel;
             r_pz_b = [-self.l_r + self.wheel_offset_h; -self.l_w/2 - self.wheel_offset_v;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([-pi/2;0;0]);
@@ -102,6 +116,7 @@ classdef AnimatedBoxyCar < handle
             self.axle_fl = AnimatedCylinder();
             self.axle_fl.radius = self.axle_width;
             self.axle_fl.height = self.wheel_offset_v;
+            self.axle_fl.faceColor = self.color_axle;
             r_pz_b = [self.l_f - self.wheel_offset_h/2; self.l_w/2 + self.wheel_offset_v/2;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([pi/2;0;0]);
@@ -110,6 +125,7 @@ classdef AnimatedBoxyCar < handle
             self.axle_fr = AnimatedCylinder();
             self.axle_fr.radius = self.axle_width;
             self.axle_fr.height = self.wheel_offset_v;
+            self.axle_fr.faceColor = self.color_axle;
             r_pz_b = [self.l_f - self.wheel_offset_h/2; -self.l_w/2 - self.wheel_offset_v/2;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([-pi/2;0;0]);
@@ -118,6 +134,7 @@ classdef AnimatedBoxyCar < handle
             self.axle_rl = AnimatedCylinder();
             self.axle_rl.radius = self.axle_width;
             self.axle_rl.height = self.wheel_offset_v;
+            self.axle_rl.faceColor = self.color_axle;
             r_pz_b = [-self.l_r + self.wheel_offset_h; self.l_w/2 + self.wheel_offset_v/2;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([pi/2;0;0]);
@@ -126,6 +143,7 @@ classdef AnimatedBoxyCar < handle
             self.axle_rr = AnimatedCylinder();
             self.axle_rr.radius = self.axle_width;
             self.axle_rr.height = self.wheel_offset_v;
+            self.axle_rr.faceColor = self.color_axle;
             r_pz_b = [-self.l_r + self.wheel_offset_h; -self.l_w/2 - self.wheel_offset_v/2;0];
             r_pz_a = C_ba'*r_pz_b;
             C_pb = getDCMrotVec([-pi/2;0;0]);

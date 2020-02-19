@@ -44,7 +44,7 @@ classdef AnimatedBox < handle
             Z = reshape(self.boxPoints(3,:),4,5);
             
             % Create plot
-            self.figureHandle = surf(X, Y, Z);
+            self.figureHandle = surf(X, Y, Z,'FaceColor',self.faceColor);
             
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba)

@@ -15,9 +15,9 @@ ani = Animation();
 % ani.addElement(AnimatedBox());
 % box = AnimatedBox();
 car = AnimatedBoxyCar(0);
-
+car.scale = 0.5;
 ani.addElement(car);
-% ani.addElement(AnimatedTrace(ani.elements.AnimatedBoxyCar1));
+ani.addElement(AnimatedTrace(ani.elements.AnimatedBoxyCar1));
 
 ani.build()
 
@@ -30,5 +30,5 @@ for lv1 = 1:size(C,3)
     view(2)
     ani.update(r(:,lv1),C(:,:,lv1))
     ani.elements.AnimatedBoxyCar1.delta = delta(lv1);
-    pause(0.15)
+    pause(0.01)
 end

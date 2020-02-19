@@ -9,9 +9,10 @@ classdef AnimatedQuadcopter < handle
         scale
         % propWidth
         % hubWidth ... etc
-        
+    end
+    properties (SetAccess = private)
         % Sub elements
-        hub 
+        hub
         arm1
         arm2
         prop1
@@ -108,7 +109,6 @@ classdef AnimatedQuadcopter < handle
             self.r = r_zw_a;
             self.C = C_ba;
         end
-        
         
     end
     

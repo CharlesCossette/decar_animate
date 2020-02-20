@@ -22,12 +22,6 @@ classdef Animation < handle
             % animation. Requires a valid element object with plot(r,C) and
             % update(r,C) methods. If numberOfCopies is specified, this
             % will also create multiple instances of the provided element.
-            % TODO  - incorporate custom properties
-            % TODO  - warning: when creating copies, the class is
-            % repeatedly instantiated, whereas when no copies are required,
-            % the instantiated class that is passed is directly used. This
-            % might cause problems...
-            
             
             className = class(element);
             searching = true;
@@ -53,7 +47,8 @@ classdef Animation < handle
             % creating copies.
             if exist('numberOfCopies','var')
                 for lv1 = ind + 1:numberOfCopies
-                    self.elements.(strcat(className,num2str(lv1))) = eval(className);
+                    self.elements.(strcat(className,num2str(lv1)))...
+                                                = self.copyObject(element);
                 end
             end
         end
@@ -122,6 +117,22 @@ classdef Animation < handle
 
             end
         end    
+        
+    end
+    methods (Access = private)
+        function copiedObj = copyObject(~, obj)
+            % Create a new object of the same class and what exactly the
+            % same property values as obj. This is necessary because when
+            % using handle classes setting obj1 = obj2 makes them the same
+            % object by reference.
+            className = class(obj);
+            props = properties(obj);
+            
+            copiedObj = eval(className);
+            for lv1 = 1:length(props)
+                copiedObj.(props{lv1}) = obj.(props{lv1});
+            end
+        end
     end
 end
 

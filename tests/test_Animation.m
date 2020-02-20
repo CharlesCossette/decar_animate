@@ -48,3 +48,4 @@ assert(ani.elements.AnimatedBox3.height == box.height)
 assert(ani.elements.AnimatedBox4.width == box.width)
 assert(ani.elements.AnimatedBox4.length == box.length)
 assert(ani.elements.AnimatedBox4.height == box.height)
+

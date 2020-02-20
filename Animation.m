@@ -120,8 +120,9 @@ classdef Animation < handle
         
     end
     methods (Access = private)
-        function copiedObj = copyObject(~, obj)
-            % Create a new object of the same class and what exactly the
+        function copiedObj = copyObject(self, obj)
+            % DEEP COPY 
+            % Create a new object of the same class and exactly the
             % same property values as obj. This is necessary because when
             % using handle classes setting obj1 = obj2 makes them the same
             % object by reference.
@@ -130,8 +131,18 @@ classdef Animation < handle
             
             copiedObj = eval(className);
             for lv1 = 1:length(props)
-                copiedObj.(props{lv1}) = obj.(props{lv1});
+                
+                if isobject(obj.(props{lv1}))
+                    % If properties are also objects then we must copy
+                    % their values instead of assigning them by reference.
+                    % RECURSION
+                    copiedObj.(props{lv1}) = self.copyObject(obj.(props{lv1}));
+                else
+                    copiedObj.(props{lv1}) = obj.(props{lv1});
+                end
             end
+            % TODO - check if property is a struct, as this could also
+            % contain objects which cant be copied by reference...
         end
     end
 end

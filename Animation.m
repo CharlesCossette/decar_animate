@@ -1,4 +1,5 @@
 classdef Animation < handle
+    % TODO - check if forgot to build.
     properties
         figureNumber
         elements
@@ -102,7 +103,8 @@ classdef Animation < handle
         function update(self,r,C)
             % Updates all the positions and attitudes of all graphic
             % elements by running the update(r,C) method of all elements.
-            % TODO - if something is deleted, recreate it.
+            % TODO - if something is deleted, recreate it?
+            % TODO - throw error if hasnt been built.
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
             for lv1 = 1:numElements

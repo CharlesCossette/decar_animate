@@ -1,6 +1,7 @@
 classdef AnimatedBox < handle
-    % TODO - link faceColor and edgeColor
-    % TODO - be able to change face/edge color after the build
+%ANIMATEDBOX  Creates a simple 1x1x1 box/cube.
+% The face color, edge color, and dimensions can all be modified be
+% accessing the corresponding properties.
     properties
         % Position and attitude
         r
@@ -21,13 +22,12 @@ classdef AnimatedBox < handle
     
     methods 
         function self = AnimatedBox()
-            % Constructor
+            % Constructor - default properties
             self.length = 1;
             self.width = 1;
             self.height = 1;
             self.faceColor = 'flat';  
             self.edgeColor = [0;0;0];
-            
         end
         
         function plot(self,r_zw_a,C_ba)
@@ -49,7 +49,7 @@ classdef AnimatedBox < handle
             self.figureHandle.EdgeColor = self.edgeColor;
             
             % Rotate and translate using update()
-            %self.update(r_zw_a, C_ba)
+            self.update(r_zw_a, C_ba)
         end
  
         
@@ -69,6 +69,8 @@ classdef AnimatedBox < handle
             self.figureHandle.XData = xRot;
             self.figureHandle.YData = yRot;
             self.figureHandle.ZData = zRot;
+            self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.EdgeColor = self.edgeColor;
             
             % Store for reference
             self.r = r_zw_a;

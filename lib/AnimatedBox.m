@@ -25,8 +25,8 @@ classdef AnimatedBox < handle
             self.length = 1;
             self.width = 1;
             self.height = 1;
-            self.faceColor = 'r';  
-            self.edgeColor = 'g';
+            self.faceColor = 'flat';  
+            self.edgeColor = [0;0;0];
             
         end
         
@@ -39,15 +39,17 @@ classdef AnimatedBox < handle
             self.updatePoints()
             
             % Reshape intro matrices compatible for surf(X,Y,Z) function
-            X = reshape(self.boxPoints(1,:),4,5);
-            Y = reshape(self.boxPoints(2,:),4,5);
-            Z = reshape(self.boxPoints(3,:),4,5);
+            X = reshape(self.boxPoints(1,:),2,[]);
+            Y = reshape(self.boxPoints(2,:),2,[]);
+            Z = reshape(self.boxPoints(3,:),2,[]);
             
             % Create plot
             self.figureHandle = surf(X, Y, Z);
+            self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.edgeColor = self.edgeColor'
             
             % Rotate and translate using update()
-            self.update(r_zw_a, C_ba)
+            %self.update(r_zw_a, C_ba)
         end
  
         
@@ -58,10 +60,10 @@ classdef AnimatedBox < handle
             % Rotate and translate
             boxRot = C_ba.'*self.boxPoints + r_zw_a;
             
-            % Reshape intro matrices compatible for surf(X,Y,Z) function
-            xRot = reshape(boxRot(1,:),4,5);
-            yRot = reshape(boxRot(2,:),4,5);
-            zRot = reshape(boxRot(3,:),4,5);
+            % Reshape into matrices compatible for surf(X,Y,Z) function
+            xRot = reshape(boxRot(1,:),2,[]);
+            yRot = reshape(boxRot(2,:),2,[]);
+            zRot = reshape(boxRot(3,:),2,[]);
             
             % Update data
             self.figureHandle.XData = xRot;
@@ -76,12 +78,10 @@ classdef AnimatedBox < handle
     end
      methods (Access = private)
         function updatePoints(self)
-            % Get box points for the specific points
-            % TODO - there is some criss-crossing on one of the surfaces.
-            % Doesn't really affect much but its not pretty.
-            xRect = [0 0 0 0 0; -1 -1 1 1 -1; -1 -1 1 1 -1; 0 0 0 0 0]*self.length/2;
-            yRect = [0 0 0 0 0; -1 1  1 -1 -1;  -1 1 1 -1 -1; 0 0 0 0 0]*self.width/2;
-            zRect = [-1 -1 -1 -1 -1;-1 -1 -1 -1 -1; 1 1 1 1 1; 1 1 1 1 1]*self.height/2;
+            % Nominal box points centered at 0,0,0 used to constuct surf
+            xRect = [-1  1  1 1 -1 -1  1 -1 -1; -1  1 1  1 -1 -1  1  1 1]*self.length/2;
+            yRect = [-1 -1  1 1  1  1  1  1  1; -1 -1 1 -1 -1 -1 -1  1 1]*self.width/2;
+            zRect = [-1 -1 -1 1  1 -1 -1 -1  1;  1  1 1  1  1 -1 -1 -1 1]*self.height/2;
             self.boxPoints   = [xRect(:).' ; yRect(:).' ; zRect(:).'];
             
         end

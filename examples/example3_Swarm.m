@@ -4,7 +4,6 @@
 clear
 load swarmData.mat
 
-
 figure(1)
 subplot(1,2,1)
 ani1 = Animation();

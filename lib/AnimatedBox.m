@@ -46,7 +46,7 @@ classdef AnimatedBox < handle
             % Create plot
             self.figureHandle = surf(X, Y, Z);
             self.figureHandle.FaceColor = self.faceColor;
-            self.figureHandle.edgeColor = self.edgeColor'
+            self.figureHandle.EdgeColor = self.edgeColor;
             
             % Rotate and translate using update()
             %self.update(r_zw_a, C_ba)

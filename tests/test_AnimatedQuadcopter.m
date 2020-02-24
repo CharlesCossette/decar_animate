@@ -35,7 +35,7 @@ ani.update(r,C);
 
 assert(all(ani.elements.AnimatedQuadcopter1.prop1.edgeColor == quad.prop1.edgeColor));
 
-%% Test4 - Test copy with sub elements customization
+%% Test 4 - Test copy with sub elements customization
 ani = Animation();
 quad = AnimatedQuadcopter();
 quad.prop1.edgeColor = [0,0,0];
@@ -50,3 +50,13 @@ assert(all(ani.elements.AnimatedQuadcopter1.prop1.edgeColor == quad.prop1.edgeCo
 assert(all(ani.elements.AnimatedQuadcopter2.prop1.edgeColor == quad.prop1.edgeColor));
 assert(all(ani.elements.AnimatedQuadcopter3.prop1.edgeColor == quad.prop1.edgeColor));
 assert(all(ani.elements.AnimatedQuadcopter4.prop1.edgeColor == quad.prop1.edgeColor));
+
+%% Test 5 - Compatibility with trace
+ani = Animation();
+ani.addElement(AnimatedQuadcopter());
+ani.addStaticElement(AnimatedTrace(ani.elements.AnimatedQuadcopter1));
+ani.build()
+for lv1 = 1:5:length(r)
+    ani.update(r(:,lv1), C(:,:,lv1))
+    pause(eps)
+end

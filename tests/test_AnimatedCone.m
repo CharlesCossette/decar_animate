@@ -24,3 +24,13 @@ C = cat(3,eye(3),eye(3));
 ani.update(r,C);
 assert(all(ani.elements.AnimatedCone1.edgeColor == cone1.edgeColor))
 assert(all(ani.elements.AnimatedCone1.edgeColor == cone1.edgeColor))
+
+%% Test 3 - Compatibility with trace
+ani = Animation();
+ani.addElement(AnimatedCone());
+ani.addStaticElement(AnimatedTrace(ani.elements.AnimatedCone1));
+ani.build()
+for lv1 = 1:2:length(r)
+    ani.update(r(:,lv1), C(:,:,lv1))
+    pause(eps)
+end

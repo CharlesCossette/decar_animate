@@ -32,7 +32,7 @@ ani = Animation();
 box = AnimatedBox();
 box.faceColor = [0 1 0];
 ani.addElement(box);
-ani.addElement(AnimatedTrace(ani.elements.AnimatedBox1));
+ani.addStaticElement(AnimatedTrace(ani.elements.AnimatedBox1));
 ani.build()
 for lv1 = 1:2:length(r)
     ani.update(r(:,lv1), C(:,:,lv1))

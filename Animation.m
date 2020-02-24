@@ -3,18 +3,16 @@ classdef Animation < handle
     properties
         figureNumber
         elements
-        traces
+        staticElements
         axesHandle
         figureHandle
         
     end
     
     methods
-        function self = Animation(figNum)
-            if exist('figNum','var')
-                self.figureNumber = figNum;
-            end
-
+        function self = Animation()
+            self.elements = struct();
+            self.staticElements = struct();
         end
         
         function addElement(self, element, numberOfCopies)
@@ -22,7 +20,6 @@ classdef Animation < handle
             % animation. Requires a valid element object with plot(r,C) and
             % update(r,C) methods. If numberOfCopies is specified, this
             % will also create multiple instances of the provided element.
-            
             className = class(element);
             searching = true;
             ind = 1;
@@ -53,6 +50,47 @@ classdef Animation < handle
             end
         end
         
+        function addStaticElement(self, element, numberOfCopies)
+            % Add a graphic element to the list of STATIC elements in this
+            % animation. Requires a valid element object with plot(r,C). 
+            %
+            % Static elements can be used to create graphical entities in a
+            % plot that do not need to be updated with update(r,C). As
+            % such, it is not mandatory to have an update(r,C) method for
+            % static elements.
+            %
+            % If numberOfCopies is specified, this  will also create 
+            % multiple instances of the provided element.
+            className = class(element);
+            searching = true;
+            ind = 1;
+            
+            % While loop checks to see if there is already an element with
+            % the same class name. If so, appends a new index to the name.
+            % This is necessary when creating copies.
+            while searching 
+                if isfield(self.staticElements, strcat(className,num2str(ind)))
+                    ind = ind + 1;
+                else
+                    self.staticElements.(strcat(className,num2str(ind))) = element;
+                    searching = false;
+                end
+
+                if ind > 100
+                    error('Failed to add element.')
+                end
+            end
+            
+            % Now that we have found the next available index, start
+            % creating copies.
+            if exist('numberOfCopies','var')
+                for lv1 = ind + 1:numberOfCopies
+                    self.staticElements.(strcat(className,num2str(lv1)))...
+                                                = self.copyObject(element);
+                end
+            end
+        end
+        
         function build(self)
             % Initialize all the graphic elements and create figure
             
@@ -74,6 +112,8 @@ classdef Animation < handle
             % Get elements in current animation object
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
+            staticElementNames = fieldnames(self.staticElements);
+            numStaticElements = numel(staticElementNames);
             
             % Loop through each element object and run plot(r,C) method
             hold off
@@ -85,7 +125,13 @@ classdef Animation < handle
                 hold(self.axesHandle, 'on')   
                 elementObj.plot([0;0;0], eye(3))
             end
+            for lv1 = 1:numStaticElements
+                staticElementObj = self.staticElements.(staticElementNames{lv1});
+                hold(self.axesHandle, 'on')   
+                staticElementObj.plot([0;0;0], eye(3))
+            end
             hold off
+            
             
             % 3D view default. This can be changed after the build.
             axis equal
@@ -115,6 +161,16 @@ classdef Animation < handle
                     elementObj.update(r(:,lv1), C(:,:,lv1))
                 end
 
+            end
+            
+            staticElementNames = fieldnames(self.staticElements);
+            numStaticElements = numel(staticElementNames);
+            for lv1 = 1:numStaticElements
+                staticElementObj = self.staticElements.(staticElementNames{lv1});
+                if ismethod(staticElementObj,...
+                        'update')
+                   staticElementObj.update()
+                end
             end
         end    
         

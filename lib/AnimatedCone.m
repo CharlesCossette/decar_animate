@@ -25,6 +25,7 @@ classdef AnimatedCone < handle
             self.length = 1;
             self.meshResolution = 10;
             self.faceColor = 'r';
+            self.edgeColor = [0.8, 0.8, 0.8];
         end
         
         function plot(self,r_zw_a,C_ba)
@@ -59,7 +60,7 @@ classdef AnimatedCone < handle
             alpha(self.figureHandle,0.1)
             self.figureHandle.LineStyle = '-';
             self.figureHandle.EdgeAlpha = 1;
-            self.figureHandle.EdgeColor = [.8 .8 .8]*0;
+            self.figureHandle.EdgeColor = self.edgeColor;
             self.figureHandle.SpecularColorReflectance = 0.5;
             self.figureHandle.FaceLighting = 'gouraud';
             

@@ -22,7 +22,45 @@ classdef AnimatedQuadcopter < handle
     
     methods
         function self = AnimatedQuadcopter()
-            self.scale = 2;      
+            self.scale = 2; 
+            
+            % TODO - parameterize relative component sizing.
+            % Add center "hub" or "base" of quadcopter.
+            
+            self.hub = AnimatedBox();
+            self.hub.length = 0.3*self.scale;
+            self.hub.width = 0.3*self.scale;
+            self.hub.height = 0.1*self.scale;
+            
+            % Add two arms which link opposing props.
+            self.arm1 = AnimatedCylinder();
+            self.arm1.radius = 0.05*self.scale;
+            self.arm1.height = sqrt(2)*self.scale;
+            
+            self.arm2 = AnimatedCylinder();
+            self.arm2.radius = 0.05*self.scale;
+            self.arm2.height = sqrt(2)*self.scale;
+            
+            % Add four props.
+            self.prop1 = AnimatedCone();
+            self.prop1.baseRadius = 0.25*self.scale;
+            self.prop1.length = 0;
+            
+            
+            self.prop2 = AnimatedCone();
+            self.prop2.baseRadius = 0.25*self.scale;
+            self.prop2.length = 0;
+            
+            
+            self.prop3 = AnimatedCone();
+            self.prop3.baseRadius = 0.25*self.scale;
+            self.prop3.length = 0;
+            
+            
+            self.prop4 = AnimatedCone();
+            self.prop4.baseRadius = 0.25*self.scale;
+            self.prop4.length = 0;
+            
         end
         
         function plot(self, r_zw_a, C_ba)
@@ -30,45 +68,13 @@ classdef AnimatedQuadcopter < handle
             % it is what actually creates the graphic object in the first
             % place.
 
-            % TODO - parameterize relative component sizing.
-            % Add center "hub" or "base" of quadcopter.
             hold on
-            self.hub = AnimatedBox();
-            self.hub.length = 0.3*self.scale;
-            self.hub.width = 0.3*self.scale;
-            self.hub.height = 0.1*self.scale;
             self.hub.plot(r_zw_a, C_ba);
-            
-            % Add two arms which link opposing props.
-            self.arm1 = AnimatedCylinder();
-            self.arm1.radius = 0.05*self.scale;
-            self.arm1.height = sqrt(2)*self.scale;
             self.arm1.plot(r_zw_a, C_ba);
-            
-            self.arm2 = AnimatedCylinder();
-            self.arm2.radius = 0.05*self.scale;
-            self.arm2.height = sqrt(2)*self.scale;
             self.arm2.plot(r_zw_a, C_ba);
-            
-            % Add four props.
-            self.prop1 = AnimatedCone();
-            self.prop1.baseRadius = 0.25*self.scale;
-            self.prop1.length = 0;
             self.prop1.plot(r_zw_a, C_ba);
-            
-            self.prop2 = AnimatedCone();
-            self.prop2.baseRadius = 0.25*self.scale;
-            self.prop2.length = 0;
             self.prop2.plot(r_zw_a, C_ba);
-            
-            self.prop3 = AnimatedCone();
-            self.prop3.baseRadius = 0.25*self.scale;
-            self.prop3.length = 0;
             self.prop3.plot(r_zw_a, C_ba);
-            
-            self.prop4 = AnimatedCone();
-            self.prop4.baseRadius = 0.25*self.scale;
-            self.prop4.length = 0;
             self.prop4.plot(r_zw_a, C_ba);
             hold off
             

@@ -3,6 +3,15 @@
 ## Table of Contents
 [TOC]
 
+## Setup
+It is probably convenient to add this repo as a `submodule` for whatever other main repo you are using for your project. To do this, go to your main repo directory, open a terminal/git command lind and type
+
+
+    git submodule add https://YOUR_BITBUCKET_USERNAME@bitbucket.org/decargroup/decar_animate.git
+    git submodule init
+    git submodule update
+    
+More info on submodules: https://www.atlassian.com/git/tutorials/git-submodule 
 ## Building the animation
 This repository is a library of different 3D animation classes. These animations are entirely position and DCM-based. To create an animation, start by creating an animation object
 

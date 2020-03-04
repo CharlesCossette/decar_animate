@@ -1,6 +1,7 @@
 classdef AnimatedCone < handle
-    %ANIMATEDCONE Summary of this class goes here
-    %   Detailed explanation goes here
+    %ANIMATEDCONE Creates a cone element, or a "chopped" cone element by
+    %specifying the two radii at each end of the cone, and the length of
+    %the cone. 
     
     properties
         % Position and attitude
@@ -57,7 +58,7 @@ classdef AnimatedCone < handle
             axis equal
             axis vis3d
             
-            % Make cone colour
+            % Change visual properties
             self.figureHandle.FaceColor = self.faceColor;
             alpha(self.figureHandle,self.faceAlpha)
             self.figureHandle.LineStyle = '-';
@@ -69,18 +70,18 @@ classdef AnimatedCone < handle
         end
         
         function update(self,r_zw_a, C_ba)
-             % Rotate and translate
+            % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
             % Reshape data into matrices
-            xCone = reshape(conePointsRot(1,:),self.meshResolution,[]);
-            yCone = reshape(conePointsRot(2,:),self.meshResolution,[]);
-            zCone = reshape(conePointsRot(3,:),self.meshResolution,[]);
+            XCone = reshape(conePointsRot(1,:),self.meshResolution,[]);
+            YCone = reshape(conePointsRot(2,:),self.meshResolution,[]);
+            ZCone = reshape(conePointsRot(3,:),self.meshResolution,[]);
             
             % Update data
-            self.figureHandle.XData = xCone;
-            self.figureHandle.YData = yCone;
-            self.figureHandle.ZData = zCone;
+            self.figureHandle.XData = XCone;
+            self.figureHandle.YData = YCone;
+            self.figureHandle.ZData = ZCone;
             
             % Save to object
             self.r = r_zw_a;

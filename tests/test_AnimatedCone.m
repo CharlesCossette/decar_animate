@@ -24,3 +24,14 @@ C = cat(3,eye(3),eye(3));
 ani.update(r,C);
 assert(all(ani.elements.AnimatedCone1.edgeColor == cone1.edgeColor))
 assert(all(ani.elements.AnimatedCone1.edgeColor == cone1.edgeColor))
+
+%% Test 3 - Test tip radius customization
+ani = Animation();
+cone = AnimatedCone();
+cone.tipRadius = 0.3;
+ani.addElement(cone);
+ani.build();
+for lv1 = 1:2:length(r)
+    ani.update(r(:,lv1), C(:,:,lv1))
+    pause(eps)
+end

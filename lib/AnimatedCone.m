@@ -1,6 +1,7 @@
 classdef AnimatedCone < handle
-    %ANIMATEDCONE Summary of this class goes here
-    %   Detailed explanation goes here
+    %ANIMATEDCONE Creates a cone element, or a "chopped" cone element by
+    %specifying the two radii at each end of the cone, and the length of
+    %the cone. 
     
     properties
         % Position and attitude
@@ -9,8 +10,11 @@ classdef AnimatedCone < handle
         
         % Visual properties
         baseRadius
+        tipRadius
         length
         faceColor
+        faceAlpha
+        edgeAlpha
         edgeColor
         meshResolution
         
@@ -22,9 +26,13 @@ classdef AnimatedCone < handle
     methods
         function self = AnimatedCone()
             self.baseRadius = 0.5;
+            self.tipRadius = 0;
             self.length = 1;
             self.meshResolution = 10;
             self.faceColor = 'r';
+            self.edgeColor = [0.8, 0.8, 0.8];
+            self.faceAlpha = 0.1;
+            self.edgeAlpha = 1;
         end
         
         function plot(self,r_zw_a,C_ba)
@@ -32,52 +40,48 @@ classdef AnimatedCone < handle
             % it is what actually creates the graphic object in the first
             % place.
             
-            % Create the mesh of the cone         
-            radii = linspace(0,self.baseRadius,self.meshResolution);      
-            alph  = linspace(0,2*pi,self.meshResolution);       % Angle of revolution of cone
-            [R,THETA] = meshgrid(radii,alph);
-            Xcone = R.*cos(THETA);
-            Ycone = R.*sin(THETA);
-            Zcone = R./self.baseRadius*self.length;
-            self.conePoints = [Xcone(:).' ; Ycone(:).' ; Zcone(:).'];
             
+            % Create the mesh of the cone 
+            radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
+            [Xcone,Ycone,Zcone] = cylinder(radii);
+            Zcone = Zcone*self.length;
+            self.conePoints = [Xcone(:).' ; Ycone(:).' ; Zcone(:).'];
             
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
             % Plot
-            xCone = reshape(conePointsRot(1,:),[],self.meshResolution);
-            yCone = reshape(conePointsRot(2,:),[],self.meshResolution);
-            zCone = reshape(conePointsRot(3,:),[],self.meshResolution);
+            xCone = reshape(conePointsRot(1,:),size(Xcone));
+            yCone = reshape(conePointsRot(2,:),size(Ycone));
+            zCone = reshape(conePointsRot(3,:),size(Zcone));
             self.figureHandle = surf(xCone,yCone,zCone);
             axis equal
             axis vis3d
             
-            % Make cone colour
-            % TODO - parameterize visual properties
+            % Change visual properties
             self.figureHandle.FaceColor = self.faceColor;
-            alpha(self.figureHandle,0.1)
+            alpha(self.figureHandle,self.faceAlpha)
             self.figureHandle.LineStyle = '-';
-            self.figureHandle.EdgeAlpha = 1;
-            self.figureHandle.EdgeColor = [.8 .8 .8]*0;
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
+            self.figureHandle.EdgeColor = self.edgeColor;
             self.figureHandle.SpecularColorReflectance = 0.5;
             self.figureHandle.FaceLighting = 'gouraud';
             
         end
         
         function update(self,r_zw_a, C_ba)
-             % Rotate and translate
+            % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
             % Reshape data into matrices
-            xCone = reshape(conePointsRot(1,:),[],self.meshResolution);
-            yCone = reshape(conePointsRot(2,:),[],self.meshResolution);
-            zCone = reshape(conePointsRot(3,:),[],self.meshResolution);
+            XCone = reshape(conePointsRot(1,:),self.meshResolution,[]);
+            YCone = reshape(conePointsRot(2,:),self.meshResolution,[]);
+            ZCone = reshape(conePointsRot(3,:),self.meshResolution,[]);
             
             % Update data
-            self.figureHandle.XData = xCone;
-            self.figureHandle.YData = yCone;
-            self.figureHandle.ZData = zCone;
+            self.figureHandle.XData = XCone;
+            self.figureHandle.YData = YCone;
+            self.figureHandle.ZData = ZCone;
             
             % Save to object
             self.r = r_zw_a;

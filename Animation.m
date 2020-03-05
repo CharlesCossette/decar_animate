@@ -1,4 +1,5 @@
 classdef Animation < handle
+    % TODO - check if forgot to build.
     properties
         figureNumber
         elements
@@ -21,12 +22,6 @@ classdef Animation < handle
             % animation. Requires a valid element object with plot(r,C) and
             % update(r,C) methods. If numberOfCopies is specified, this
             % will also create multiple instances of the provided element.
-            % TODO  - incorporate custom properties
-            % TODO  - warning: when creating copies, the class is
-            % repeatedly instantiated, whereas when no copies are required,
-            % the instantiated class that is passed is directly used. This
-            % might cause problems...
-            
             
             className = class(element);
             searching = true;
@@ -52,7 +47,8 @@ classdef Animation < handle
             % creating copies.
             if exist('numberOfCopies','var')
                 for lv1 = ind + 1:numberOfCopies
-                    self.elements.(strcat(className,num2str(lv1))) = eval(className);
+                    self.elements.(strcat(className,num2str(lv1)))...
+                                                = self.copyObject(element);
                 end
             end
         end
@@ -102,7 +98,8 @@ classdef Animation < handle
         function update(self,r,C)
             % Updates all the positions and attitudes of all graphic
             % elements by running the update(r,C) method of all elements.
-            % TODO - if something is deleted, recreate it.
+            % TODO - if something is deleted, recreate it?
+            % TODO - throw error if hasnt been built.
             elementNames = fieldnames(self.elements);
             numElements = numel(elementNames);
             for lv1 = 1:numElements
@@ -120,6 +117,33 @@ classdef Animation < handle
 
             end
         end    
+        
+    end
+    methods (Access = private)
+        function copiedObj = copyObject(self, obj)
+            % DEEP COPY 
+            % Create a new object of the same class and exactly the
+            % same property values as obj. This is necessary because when
+            % using handle classes setting obj1 = obj2 makes them the same
+            % object by reference.
+            className = class(obj);
+            props = properties(obj);
+            
+            copiedObj = eval(className);
+            for lv1 = 1:length(props)
+                
+                if isobject(obj.(props{lv1}))
+                    % If properties are also objects then we must copy
+                    % their values instead of assigning them by reference.
+                    % RECURSION
+                    copiedObj.(props{lv1}) = self.copyObject(obj.(props{lv1}));
+                else
+                    copiedObj.(props{lv1}) = obj.(props{lv1});
+                end
+            end
+            % TODO - check if property is a struct, as this could also
+            % contain objects which cant be copied by reference...
+        end
     end
 end
 

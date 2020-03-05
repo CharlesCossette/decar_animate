@@ -1,15 +1,17 @@
 # decar-animate
 
 ## Table of Contents
-- [Building the animation](#building-the-animation)
-- [Updating the animation](#updating-the-animation)
-- [Customizing the appearances](#customizing-the-appearances)
-  * [Customizing the elements themselves](#customizing-the-elements-themselves)
-  * [Customizing the plots](#customizing-the-plots)
-- [Multiple Animations in Subplots](#multiple-animations-in-subplots)
-- [Creating a new element class](#creating-a-new-element-class)
-- [TO DO](#to-do)
+[TOC]
 
+## Setup
+It is probably convenient to add this repo as a `submodule` for whatever other main repo you are using for your project. To do this, go to your main repo directory, open a terminal/git command lind and type
+
+
+    git submodule add https://YOUR_BITBUCKET_USERNAME@bitbucket.org/decargroup/decar_animate.git
+    git submodule init
+    git submodule update
+    
+More info on submodules: https://www.atlassian.com/git/tutorials/git-submodule 
 ## Building the animation
 This repository is a library of different 3D animation classes. These animations are entirely position and DCM-based. To create an animation, start by creating an animation object
 
@@ -110,5 +112,8 @@ will display a figure with a 1-by-1-by-1 box centered at `r`, and `C = C_ba` is 
 
 - [ ] Develop ani.play(r,C) to play back a set of data in real-time by monitoring computer clock (or n times real-time). 
 - [ ] Develop ani.record(r,C) to record a video and save as .mp4 file (real-time or n times real-time).
-- [ ] write API for everything
-- [ ] implement tests for everything
+- [ ] Write API for everything
+- [ ] Implement tests for everything
+- [ ] Expand customization of all the elements
+- [ ] Create element abstract class
+- [ ] Turn this repo into a MATLAB package?

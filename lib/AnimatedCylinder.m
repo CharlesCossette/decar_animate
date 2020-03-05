@@ -12,6 +12,9 @@ classdef AnimatedCylinder < handle
         % Working variables
         figureHandle
         cylPoints
+        
+        % Face color
+        faceColor
     end
     
     methods
@@ -19,6 +22,7 @@ classdef AnimatedCylinder < handle
             self.radius = 1;
             self.height = 3;    
             self.meshResolution = 10;
+            self.faceColor = 'b';
         end
         
         function plot(self, r_zw_a, C_ba)
@@ -38,7 +42,7 @@ classdef AnimatedCylinder < handle
             self.cylPoints = [Xcyl(:).';Ycyl(:).';Zcyl(:).'];
             
             % Create figure
-            self.figureHandle = surf(Xcyl,Ycyl,Zcyl);
+            self.figureHandle = surf(Xcyl,Ycyl,Zcyl,'FaceColor',self.faceColor);
             
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba);

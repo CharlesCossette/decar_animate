@@ -29,16 +29,16 @@ classdef AnimatedCylinder < handle
             % Create cylinder with radius and mesh resolution. 
             % NOTE - radius can actually be a n x 1 column matrix of points
             % which define a varying radius profile.
-            [Xcyl, Ycyl, Zcyl] = cylinder(self.radius, self.meshResolution);
+            [xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
             
             % Stretch to correct height and center at centroid.
-            Zcyl = Zcyl.*self.height - self.height/2;
+            zCyl = zCyl.*self.height - self.height/2;
             
             % Store as wide matrix
-            self.cylPoints = [Xcyl(:).';Ycyl(:).';Zcyl(:).'];
+            self.cylPoints = [xCyl(:).';yCyl(:).';zCyl(:).'];
             
             % Create figure
-            self.figureHandle = surf(Xcyl,Ycyl,Zcyl);
+            self.figureHandle = surf(xCyl,yCyl,zCyl);
             
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba);
@@ -46,6 +46,9 @@ classdef AnimatedCylinder < handle
         end
         
         function update(self, r_zw_a, C_ba)
+            % TODO: Update the cylinder only if dimensions have changed.
+            self.updatePoints();
+            
             % Rotate and translate
             cylPointsRot = C_ba.'*self.cylPoints + r_zw_a;
             
@@ -64,4 +67,18 @@ classdef AnimatedCylinder < handle
             self.C = C_ba;
         end
     end
+    
+    methods (Access = private)
+        function updatePoints(self)
+            % NOTE - radius can actually be a n x 1 column matrix of points
+            % which define a varying radius profile.
+            [xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
+            
+            % Stretch to correct height and center at centroid.
+            zCyl = zCyl.*self.height - self.height/2;
+            
+            % Store as wide matrix
+            self.cylPoints = [xCyl(:).';yCyl(:).';zCyl(:).'];
+        end
+     end
 end

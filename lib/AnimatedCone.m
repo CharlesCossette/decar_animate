@@ -40,7 +40,6 @@ classdef AnimatedCone < handle
             % it is what actually creates the graphic object in the first
             % place.
             
-            
             % Create the mesh of the cone 
             radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
             [Xcone,Ycone,Zcone] = cylinder(radii);
@@ -49,7 +48,7 @@ classdef AnimatedCone < handle
             
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
-            
+                        
             % Plot
             xCone = reshape(conePointsRot(1,:),size(Xcone));
             yCone = reshape(conePointsRot(2,:),size(Ycone));
@@ -70,6 +69,9 @@ classdef AnimatedCone < handle
         end
         
         function update(self,r_zw_a, C_ba)
+            % TODO: Update the mesh of the cone only if dimensions have changed.
+            self.updatePoints();
+            
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
@@ -88,5 +90,14 @@ classdef AnimatedCone < handle
             self.C = C_ba;
         end
     end
+    
+    methods (Access = private)
+        function updatePoints(self)
+            radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
+            [Xcone,Ycone,Zcone] = cylinder(radii);
+            Zcone = Zcone*self.length;
+            self.conePoints = [Xcone(:).' ; Ycone(:).' ; Zcone(:).'];
+        end
+     end
 end
 

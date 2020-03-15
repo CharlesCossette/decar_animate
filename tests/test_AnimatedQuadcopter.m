@@ -51,7 +51,19 @@ assert(all(ani.elements.AnimatedQuadcopter2.prop1.edgeColor == quad.prop1.edgeCo
 assert(all(ani.elements.AnimatedQuadcopter3.prop1.edgeColor == quad.prop1.edgeColor));
 assert(all(ani.elements.AnimatedQuadcopter4.prop1.edgeColor == quad.prop1.edgeColor));
 
-%% Test 5 - Test copy with scale customization
+%% Test 5 - General motion with scale customization in a loop
+ani  = Animation();
+quad = AnimatedQuadcopter();
+ani.addElement(quad)
+ani.build()
+for lv1 = 1:5:length(r)
+    oldScale = ani.elements.AnimatedQuadcopter1.scale;
+    ani.elements.AnimatedQuadcopter1.scale = oldScale + rand;
+    ani.update(r(:,lv1), C(:,:,lv1))
+    pause(eps)
+end
+
+%% Test 6 - Test copy with scale customization
 ani = Animation();
 quad = AnimatedQuadcopter();
 quad.scale = 10;
@@ -66,7 +78,7 @@ assert(all(ani.elements.AnimatedQuadcopter2.scale == quad.scale));
 assert(all(ani.elements.AnimatedQuadcopter3.scale == quad.scale));
 assert(all(ani.elements.AnimatedQuadcopter4.scale == quad.scale));
 
-%% Test 6 - General with scale customization
+%% Test 7 - General copy with scale customization
 load testData
 ani = Animation();
 quad = AnimatedQuadcopter();

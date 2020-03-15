@@ -54,7 +54,7 @@ classdef AnimatedBox < handle
  
         
         function update(self, r_zw_a, C_ba)
-            % Update nominal box points if dimensions have changed.
+            % TODO: Update nominal box points only if dimensions have changed.
             self.updatePoints();
             
             % Rotate and translate
@@ -85,7 +85,6 @@ classdef AnimatedBox < handle
             yRect = [-1 -1  1 1  1  1  1  1  1; -1 -1 1 -1 -1 -1 -1  1 1]*self.width/2;
             zRect = [-1 -1 -1 1  1 -1 -1 -1  1;  1  1 1  1  1 -1 -1 -1 1]*self.height/2;
             self.boxPoints   = [xRect(:).' ; yRect(:).' ; zRect(:).'];
-            
         end
      end
 end

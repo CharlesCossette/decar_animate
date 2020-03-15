@@ -69,9 +69,6 @@ classdef AnimatedCone < handle
         end
         
         function update(self,r_zw_a, C_ba)
-            % TODO: Update the mesh of the cone only if dimensions have changed.
-            self.updatePoints();
-            
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
@@ -89,9 +86,7 @@ classdef AnimatedCone < handle
             self.r = r_zw_a;
             self.C = C_ba;
         end
-    end
-    
-    methods (Access = private)
+
         function updatePoints(self)
             radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
             [Xcone,Ycone,Zcone] = cylinder(radii);

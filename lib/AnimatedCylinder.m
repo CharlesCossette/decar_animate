@@ -45,10 +45,7 @@ classdef AnimatedCylinder < handle
 
         end
         
-        function update(self, r_zw_a, C_ba)
-            % TODO: Update the cylinder only if dimensions have changed.
-            self.updatePoints();
-            
+        function update(self, r_zw_a, C_ba)            
             % Rotate and translate
             cylPointsRot = C_ba.'*self.cylPoints + r_zw_a;
             
@@ -66,17 +63,15 @@ classdef AnimatedCylinder < handle
             self.r = r_zw_a;
             self.C = C_ba;
         end
-    end
-    
-    methods (Access = private)
+        
         function updatePoints(self)
             % NOTE - radius can actually be a n x 1 column matrix of points
             % which define a varying radius profile.
             [xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
-            
+
             % Stretch to correct height and center at centroid.
             zCyl = zCyl.*self.height - self.height/2;
-            
+
             % Store as wide matrix
             self.cylPoints = [xCyl(:).';yCyl(:).';zCyl(:).'];
         end

@@ -52,6 +52,7 @@ assert(all(ani.elements.AnimatedQuadcopter3.prop1.edgeColor == quad.prop1.edgeCo
 assert(all(ani.elements.AnimatedQuadcopter4.prop1.edgeColor == quad.prop1.edgeColor));
 
 %% Test 5 - General motion with scale customization in a loop
+rng(1)
 ani  = Animation();
 quad = AnimatedQuadcopter();
 ani.addElement(quad)

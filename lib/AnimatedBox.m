@@ -54,9 +54,6 @@ classdef AnimatedBox < handle
  
         
         function update(self, r_zw_a, C_ba)
-            % TODO: Update nominal box points only if dimensions have changed.
-            self.updatePoints();
-            
             % Rotate and translate
             boxRot = C_ba.'*self.boxPoints + r_zw_a;
             
@@ -76,9 +73,7 @@ classdef AnimatedBox < handle
             self.r = r_zw_a;
             self.C = C_ba;
         end
-        
-    end
-     methods (Access = private)
+
         function updatePoints(self)
             % Nominal box points centered at 0,0,0 used to constuct surf
             xRect = [-1  1  1 1 -1 -1  1 -1 -1; -1  1 1  1 -1 -1  1  1 1]*self.length/2;

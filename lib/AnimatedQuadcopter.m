@@ -154,6 +154,14 @@ classdef AnimatedQuadcopter < handle
             
             % update only if a pose has been specified
             if ~isempty(self.r) && ~isempty(self.C)
+                self.hub.updatePoints()
+                self.arm1.updatePoints()
+                self.arm2.updatePoints()
+                self.prop1.updatePoints()
+                self.prop2.updatePoints()
+                self.prop3.updatePoints()
+                self.prop4.updatePoints()
+                
                 self.update(self.r,self.C)
             end
         end

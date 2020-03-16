@@ -53,7 +53,10 @@ classdef AnimatedCylinder < handle
 
         end
         
-        function update(self, r_zw_a, C_ba)            
+        function update(self, r_zw_a, C_ba)
+            % Update geometry
+            self.updatePoints()
+            
             % Rotate and translate
             cylPointsRot = C_ba.'*self.cylPoints + r_zw_a;
             

@@ -56,6 +56,9 @@ classdef AnimatedBox < handle
  
         
         function update(self, r_zw_a, C_ba)
+            % Update geometry
+            self.updatePoints()
+            
             % Rotate and translate
             boxRot = C_ba.'*self.boxPoints + r_zw_a;
             

@@ -41,21 +41,16 @@ classdef AnimatedCone < handle
             % place.
             
             % Create the mesh of the cone 
-            radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
-            [Xcone,Ycone,Zcone] = cylinder(radii);
-            Zcone = Zcone*self.length;
-            self.conePoints = [Xcone(:).' ; Ycone(:).' ; Zcone(:).'];
+            self.updatePoints()
             
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
                         
             % Plot
-            xCone = reshape(conePointsRot(1,:),size(Xcone));
-            yCone = reshape(conePointsRot(2,:),size(Ycone));
-            zCone = reshape(conePointsRot(3,:),size(Zcone));
+            xCone = reshape(conePointsRot(1,:),self.meshResolution,[]);
+            yCone = reshape(conePointsRot(2,:),self.meshResolution,[]);
+            zCone = reshape(conePointsRot(3,:),self.meshResolution,[]);
             self.figureHandle = surf(xCone,yCone,zCone);
-            axis equal
-            axis vis3d
             
             % Some constant visual properties
             self.figureHandle.LineStyle = '-';
@@ -66,6 +61,9 @@ classdef AnimatedCone < handle
         end
         
         function update(self,r_zw_a, C_ba)
+            % Update geometry
+            self.updatePoints()
+            
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
@@ -85,7 +83,6 @@ classdef AnimatedCone < handle
             self.figureHandle.FaceAlpha = self.faceAlpha;
             self.figureHandle.EdgeAlpha = self.edgeAlpha;
             self.figureHandle.EdgeColor = self.edgeColor;
-
             
             % Save to object
             self.r = r_zw_a;
@@ -93,6 +90,8 @@ classdef AnimatedCone < handle
         end
 
         function updatePoints(self)
+            % Creates the actual meshgrid using built-in cylinder()
+            % function.
             radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
             [Xcone,Ycone,Zcone] = cylinder(radii);
             Zcone = Zcone*self.length;

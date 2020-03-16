@@ -60,10 +60,10 @@ classdef AnimatedCone < handle
             % Change visual properties
             self.figureHandle.FaceColor = self.faceColor;
             alpha(self.figureHandle,self.faceAlpha)
-            self.figureHandle.LineStyle = '-';
             self.figureHandle.EdgeAlpha = self.edgeAlpha;
             self.figureHandle.EdgeColor = self.edgeColor;
             self.figureHandle.SpecularColorReflectance = 0.5;
+            self.figureHandle.LineStyle = '-';
             self.figureHandle.FaceLighting = 'gouraud';
             
         end
@@ -81,6 +81,14 @@ classdef AnimatedCone < handle
             self.figureHandle.XData = XCone;
             self.figureHandle.YData = YCone;
             self.figureHandle.ZData = ZCone;
+            
+            % Update Visual properties - these need to be here so you can
+            % change them on-the-fly.
+            self.figureHandle.FaceColor = self.faceColor;
+            alpha(self.figureHandle,self.faceAlpha)
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
+            self.figureHandle.EdgeColor = self.edgeColor;
+            self.figureHandle.SpecularColorReflectance = 0.5;
             
             % Save to object
             self.r = r_zw_a;

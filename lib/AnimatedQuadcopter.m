@@ -159,6 +159,13 @@ classdef AnimatedQuadcopter < handle
             self.prop4.baseRadius = 0.25*self.scale;
             self.prop4.length = 0;
             
+            
+            % TODO - these updatePoints() function should also be run by
+            % self.hub.update(), because if someone is creating an
+            % AnimatedBox(), for example, and wants to change the
+            % box width on-the-fly, then we would need to also call
+            % self.updatePoints()
+            
             % update only if a pose has been specified
             if ~isempty(self.r) && ~isempty(self.C)
                 self.hub.updatePoints()

@@ -102,3 +102,17 @@ for lv1 = 1:5:length(r)
     ani.update(C(:,:,lv1)*r_group + r(:,lv1), C_group)
     pause(eps)
 end
+
+%% Test 8 - General motion with sub-element property customization in a loop
+load testData
+ani  = Animation();
+quad = AnimatedQuadcopter();
+quad.prop1.faceAlpha = 1;
+quad.prop1.edgeColor = 'none';
+ani.addElement(quad);
+ani.build()
+for lv1 = 1:5:length(r)
+    ani.elements.AnimatedQuadcopter1.prop1.faceColor = [lv1/length(r) 0 0];
+    ani.update(r(:,lv1), C(:,:,lv1))
+    pause(eps)
+end

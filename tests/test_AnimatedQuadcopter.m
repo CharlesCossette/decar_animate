@@ -57,6 +57,7 @@ ani  = Animation();
 quad = AnimatedQuadcopter();
 ani.addElement(quad)
 ani.build()
+axis([-60 60 -60 60 -60 60])
 for lv1 = 1:5:length(r)
     oldScale = ani.elements.AnimatedQuadcopter1.scale;
     ani.elements.AnimatedQuadcopter1.scale = oldScale + rand;

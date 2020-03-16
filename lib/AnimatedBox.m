@@ -13,6 +13,8 @@ classdef AnimatedBox < handle
         height
         faceColor
         edgeColor
+        faceAlpha
+        edgeAlpha
         
         % Working variables
         boxPoints
@@ -26,8 +28,10 @@ classdef AnimatedBox < handle
             self.length = 1;
             self.width = 1;
             self.height = 1;
-            self.faceColor = 'flat';  
-            self.edgeColor = [0;0;0];
+            self.faceColor = 'flat';
+            self.edgeColor = [0 0 0];
+            self.faceAlpha = 1;
+            self.edgeAlpha = 1;
         end
         
         function plot(self,r_zw_a,C_ba)
@@ -45,8 +49,6 @@ classdef AnimatedBox < handle
             
             % Create plot
             self.figureHandle = surf(X, Y, Z);
-            self.figureHandle.FaceColor = self.faceColor;
-            self.figureHandle.EdgeColor = self.edgeColor;
             
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba)
@@ -67,6 +69,8 @@ classdef AnimatedBox < handle
             self.figureHandle.YData = yRot;
             self.figureHandle.ZData = zRot;
             self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.FaceAlpha = self.faceAlpha;
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
             self.figureHandle.EdgeColor = self.edgeColor;
             
             % Store for reference

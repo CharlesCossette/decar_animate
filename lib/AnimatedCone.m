@@ -57,15 +57,12 @@ classdef AnimatedCone < handle
             axis equal
             axis vis3d
             
-            % Change visual properties
-            self.figureHandle.FaceColor = self.faceColor;
-            alpha(self.figureHandle,self.faceAlpha)
+            % Some constant visual properties
             self.figureHandle.LineStyle = '-';
-            self.figureHandle.EdgeAlpha = self.edgeAlpha;
-            self.figureHandle.EdgeColor = self.edgeColor;
-            self.figureHandle.SpecularColorReflectance = 0.5;
             self.figureHandle.FaceLighting = 'gouraud';
+            self.figureHandle.SpecularColorReflectance = 0.5;
             
+            self.update(r_zw_a, C_ba);            
         end
         
         function update(self,r_zw_a, C_ba)
@@ -81,6 +78,14 @@ classdef AnimatedCone < handle
             self.figureHandle.XData = XCone;
             self.figureHandle.YData = YCone;
             self.figureHandle.ZData = ZCone;
+            
+            % Update Visual properties - these need to be here so you can
+            % change them on-the-fly.
+            self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.FaceAlpha = self.faceAlpha;
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
+            self.figureHandle.EdgeColor = self.edgeColor;
+
             
             % Save to object
             self.r = r_zw_a;

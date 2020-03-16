@@ -28,6 +28,13 @@ classdef AnimatedQuadcopter < handle
             
             % TODO - parameterize relative component sizing.
 
+            % TODO - consider just calling self.setDimensions() on every 
+            % update instead of using a listener. This might be unnecessary
+            % optimization as for most use cases you will just stick the
+            % quad.scale = [VALUE] expression inside the loop anyways,
+            % resulting in running self.setDimensions() just as frequently.
+            
+            
             % define a listener for the scale property
             addlistener(self,'scale','PostSet',@AnimatedQuadcopter.handleScaleEvents);
                         
@@ -151,6 +158,13 @@ classdef AnimatedQuadcopter < handle
             
             self.prop4.baseRadius = 0.25*self.scale;
             self.prop4.length = 0;
+            
+            
+            % TODO - these updatePoints() function should also be run by
+            % self.hub.update(), because if someone is creating an
+            % AnimatedBox(), for example, and wants to change the
+            % box width on-the-fly, then we would need to also call
+            % self.updatePoints()
             
             % update only if a pose has been specified
             if ~isempty(self.r) && ~isempty(self.C)

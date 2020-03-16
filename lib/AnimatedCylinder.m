@@ -8,6 +8,10 @@ classdef AnimatedCylinder < handle
         radius
         height
         meshResolution
+        faceColor
+        edgeColor
+        faceAlpha
+        edgeAlpha
         
         % Working variables
         figureHandle
@@ -19,6 +23,10 @@ classdef AnimatedCylinder < handle
             self.radius = 1;
             self.height = 3;    
             self.meshResolution = 10;
+            self.faceColor = 'flat';
+            self.edgeColor = [0 0 0];
+            self.faceAlpha = 1;
+            self.edgeAlpha = 1;
         end
         
         function plot(self, r_zw_a, C_ba)
@@ -59,6 +67,12 @@ classdef AnimatedCylinder < handle
             self.figureHandle.YData = yCyl;
             self.figureHandle.ZData = zCyl;
             
+            % Update visual properties
+            self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.FaceAlpha = self.faceAlpha;
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
+            self.figureHandle.EdgeColor = self.edgeColor;
+            
             % Save to object
             self.r = r_zw_a;
             self.C = C_ba;
@@ -67,6 +81,9 @@ classdef AnimatedCylinder < handle
         function updatePoints(self)
             % NOTE - radius can actually be a n x 1 column matrix of points
             % which define a varying radius profile.
+            
+            % TODO: unneccessary calling of cylinder() every time?
+            % This might actually significantly expect speed.
             [xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
 
             % Stretch to correct height and center at centroid.

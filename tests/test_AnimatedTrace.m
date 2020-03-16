@@ -1,6 +1,6 @@
-load testData
 
 %% Test 1 - General Motion
+load testData
 ani = Animation();
 ani.addElement(AnimatedBox)
 ani.addElement(AnimatedTrace(ani.elements.AnimatedBox1));
@@ -11,6 +11,7 @@ for lv1 = 1:2:length(r)
 end
 
 %% Test 2 - General Motion with customized properties
+load testData
 ani = Animation();
 ani.addElement(AnimatedBox)
 tr = AnimatedTrace(ani.elements.AnimatedBox1);

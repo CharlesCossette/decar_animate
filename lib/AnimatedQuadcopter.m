@@ -28,6 +28,13 @@ classdef AnimatedQuadcopter < handle
             
             % TODO - parameterize relative component sizing.
 
+            % TODO - consider just calling self.setDimensions() on every 
+            % update instead of using a listener. This might be unnecessary
+            % optimization as for most use cases you will just stick the
+            % quad.scale = [VALUE] expression inside the loop anyways,
+            % resulting in running self.setDimensions() just as frequently.
+            
+            
             % define a listener for the scale property
             addlistener(self,'scale','PostSet',@AnimatedQuadcopter.handleScaleEvents);
                         

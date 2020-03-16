@@ -5,11 +5,6 @@ classdef AnimatedQuadcopter < handle
         r
         C
         
-        % Visual properties
-        scale
-        % propWidth
-        % hubWidth ... etc
-        
         % Sub elements
         hub 
         arm1
@@ -20,12 +15,22 @@ classdef AnimatedQuadcopter < handle
         prop4
     end
     
+    properties (SetObservable)
+        % Visual properties
+        scale
+        % propWidth
+        % hubWidth ... etc
+    end
+    
     methods
         function self = AnimatedQuadcopter()
             self.scale = 1; 
             
             % TODO - parameterize relative component sizing.
-            
+
+            % define a listener for the scale property
+            addlistener(self,'scale','PostSet',@AnimatedQuadcopter.handleScaleEvents);
+                        
             % Add center "hub" or "base" of quadcopter.
             self.hub = AnimatedBox();
             
@@ -61,9 +66,7 @@ classdef AnimatedQuadcopter < handle
             self.update(r_zw_a, C_ba)
         end
         
-        function update(self, r_zw_a, C_ba)
-            self.setDimensions()
-            
+        function update(self, r_zw_a, C_ba)            
             % Hub
             self.hub.update(r_zw_a, C_ba)
             
@@ -94,8 +97,12 @@ classdef AnimatedQuadcopter < handle
             self.r = r_zw_a;
             self.C = C_ba;
         end
-        
-        
+    end
+    
+    methods (Static)
+        function handleScaleEvents(~,src)
+            src.AffectedObject.setDimensions();
+        end
     end
     
     methods (Access = private)
@@ -133,10 +140,8 @@ classdef AnimatedQuadcopter < handle
             self.arm2.radius = 0.05*self.scale;
             self.arm2.height = sqrt(2)*self.scale;
             
-
             self.prop1.baseRadius = 0.25*self.scale;
             self.prop1.length = 0;
-            
 
             self.prop2.baseRadius = 0.25*self.scale;
             self.prop2.length = 0;
@@ -146,6 +151,19 @@ classdef AnimatedQuadcopter < handle
             
             self.prop4.baseRadius = 0.25*self.scale;
             self.prop4.length = 0;
+            
+            % update only if a pose has been specified
+            if ~isempty(self.r) && ~isempty(self.C)
+                self.hub.updatePoints()
+                self.arm1.updatePoints()
+                self.arm2.updatePoints()
+                self.prop1.updatePoints()
+                self.prop2.updatePoints()
+                self.prop3.updatePoints()
+                self.prop4.updatePoints()
+                
+                self.update(self.r,self.C)
+            end
         end
             
     end

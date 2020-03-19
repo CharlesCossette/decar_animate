@@ -41,34 +41,29 @@ classdef AnimatedCone < handle
             % place.
             
             % Create the mesh of the cone 
-            radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
-            [Xcone,Ycone,Zcone] = cylinder(radii);
-            Zcone = Zcone*self.length;
-            self.conePoints = [Xcone(:).' ; Ycone(:).' ; Zcone(:).'];
+            self.updatePoints()
             
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
                         
             % Plot
-            xCone = reshape(conePointsRot(1,:),size(Xcone));
-            yCone = reshape(conePointsRot(2,:),size(Ycone));
-            zCone = reshape(conePointsRot(3,:),size(Zcone));
+            xCone = reshape(conePointsRot(1,:),self.meshResolution,[]);
+            yCone = reshape(conePointsRot(2,:),self.meshResolution,[]);
+            zCone = reshape(conePointsRot(3,:),self.meshResolution,[]);
             self.figureHandle = surf(xCone,yCone,zCone);
-            axis equal
-            axis vis3d
             
-            % Change visual properties
-            self.figureHandle.FaceColor = self.faceColor;
-            alpha(self.figureHandle,self.faceAlpha)
+            % Some constant visual properties
             self.figureHandle.LineStyle = '-';
-            self.figureHandle.EdgeAlpha = self.edgeAlpha;
-            self.figureHandle.EdgeColor = self.edgeColor;
-            self.figureHandle.SpecularColorReflectance = 0.5;
             self.figureHandle.FaceLighting = 'gouraud';
+            self.figureHandle.SpecularColorReflectance = 0.5;
             
+            self.update(r_zw_a, C_ba);            
         end
         
         function update(self,r_zw_a, C_ba)
+            % Update geometry
+            self.updatePoints()
+            
             % Rotate and translate
             conePointsRot = C_ba.'*self.conePoints + r_zw_a;
             
@@ -82,12 +77,21 @@ classdef AnimatedCone < handle
             self.figureHandle.YData = YCone;
             self.figureHandle.ZData = ZCone;
             
+            % Update Visual properties - these need to be here so you can
+            % change them on-the-fly.
+            self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.FaceAlpha = self.faceAlpha;
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
+            self.figureHandle.EdgeColor = self.edgeColor;
+            
             % Save to object
             self.r = r_zw_a;
             self.C = C_ba;
         end
 
         function updatePoints(self)
+            % Creates the actual meshgrid using built-in cylinder()
+            % function.
             radii = self.tipRadius + (self.baseRadius - self.tipRadius)*linspace(0,1,self.meshResolution);
             [Xcone,Ycone,Zcone] = cylinder(radii);
             Zcone = Zcone*self.length;

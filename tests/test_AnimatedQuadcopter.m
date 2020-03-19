@@ -1,6 +1,7 @@
-load testData
+
 
 %% Test 1 - General Motion
+load testData
 ani = Animation();
 ani.addElement(AnimatedQuadcopter());
 ani.build()
@@ -10,6 +11,7 @@ for lv1 = 1:5:length(r)
 end
 
 %% Test 2 - General Motion with copies
+load testData
 ani = Animation();
 ani.addElement(AnimatedQuadcopter(),4);
 ani.build()
@@ -23,6 +25,7 @@ for lv1 = 1:5:length(r)
 end
 
 %% Test 3 - Test sub-elements customization
+load testData
 ani = Animation();
 quad = AnimatedQuadcopter();
 quad.prop1.edgeColor = [0,0,0];
@@ -36,12 +39,14 @@ ani.update(r,C);
 assert(all(ani.elements.AnimatedQuadcopter1.prop1.edgeColor == quad.prop1.edgeColor));
 
 %% Test 4 - Test copy with sub elements customization
+load testData
 ani = Animation();
 quad = AnimatedQuadcopter();
 quad.prop1.edgeColor = [0,0,0];
 ani.addElement(quad,4)
 ani.build()
 
+rng(1)
 r = randn(3,4)*5;
 C = repmat(eye(3),1,1,4);
 ani.update(r,C);
@@ -52,11 +57,13 @@ assert(all(ani.elements.AnimatedQuadcopter3.prop1.edgeColor == quad.prop1.edgeCo
 assert(all(ani.elements.AnimatedQuadcopter4.prop1.edgeColor == quad.prop1.edgeColor));
 
 %% Test 5 - General motion with scale customization in a loop
+load testData
 rng(1)
 ani  = Animation();
 quad = AnimatedQuadcopter();
 ani.addElement(quad)
 ani.build()
+axis([-90 90 -90 90 -90 90])
 for lv1 = 1:5:length(r)
     oldScale = ani.elements.AnimatedQuadcopter1.scale;
     ani.elements.AnimatedQuadcopter1.scale = oldScale + rand;
@@ -65,6 +72,7 @@ for lv1 = 1:5:length(r)
 end
 
 %% Test 6 - Test copy with scale customization
+load testData
 ani = Animation();
 quad = AnimatedQuadcopter();
 quad.scale = 10;
@@ -92,5 +100,19 @@ r_group = randn(3,4)*5;
 for lv1 = 1:5:length(r)
     C_group = repmat(C(:,:,lv1),1,1,4);
     ani.update(C(:,:,lv1)*r_group + r(:,lv1), C_group)
+    pause(eps)
+end
+
+%% Test 8 - General motion with sub-element property customization in a loop
+load testData
+ani  = Animation();
+quad = AnimatedQuadcopter();
+quad.prop1.faceAlpha = 1;
+quad.prop1.edgeColor = 'none';
+ani.addElement(quad);
+ani.build()
+for lv1 = 1:5:length(r)
+    ani.elements.AnimatedQuadcopter1.prop1.faceColor = [lv1/length(r) 0 0];
+    ani.update(r(:,lv1), C(:,:,lv1))
     pause(eps)
 end

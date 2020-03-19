@@ -6,31 +6,26 @@ classdef AnimatedQuadcopter < handle
         C
         
         % Sub elements
-        hub 
+        hub
         arm1
         arm2
         prop1
         prop2
         prop3
         prop4
-    end
-    
-    properties (SetObservable)
+        
         % Visual properties
         scale
         % propWidth
-        % hubWidth ... etc
+        % hubWidth ... etc TODO
     end
     
     methods
         function self = AnimatedQuadcopter()
-            self.scale = 1; 
-            
+            % Constructor
             % TODO - parameterize relative component sizing.
+            self.scale = 1;
 
-            % define a listener for the scale property
-            addlistener(self,'scale','PostSet',@AnimatedQuadcopter.handleScaleEvents);
-                        
             % Add center "hub" or "base" of quadcopter.
             self.hub = AnimatedBox();
             
@@ -50,8 +45,9 @@ classdef AnimatedQuadcopter < handle
             % BUILD - this function gets called during the animation build.
             % it is what actually creates the graphic object in the first
             % place.
-            self.setDimensions()
             
+            % For an element of elements, sub-elements are added as
+            % properties of this class.
             hold on
             self.hub.plot(r_zw_a, C_ba);
             self.arm1.plot(r_zw_a, C_ba);
@@ -66,7 +62,13 @@ classdef AnimatedQuadcopter < handle
             self.update(r_zw_a, C_ba)
         end
         
-        function update(self, r_zw_a, C_ba)            
+        function update(self, r_zw_a, C_ba)
+            % For an element of elements, the update(r,C) function
+            % implicitly defines how all the sub-elements are related.
+            
+            % Update geometry
+            self.setDimensions()
+            
             % Hub
             self.hub.update(r_zw_a, C_ba)
             
@@ -98,24 +100,18 @@ classdef AnimatedQuadcopter < handle
             self.C = C_ba;
         end
     end
-    
-    methods (Static)
-        function handleScaleEvents(~,src)
-            src.AffectedObject.setDimensions();
-        end
-    end
-    
+   
     methods (Access = private)
-        % Principle DCMS are used to assemble quadopter.
+        % Principle DCMS are used to assemble quadcopter.
         function C = C1_DCM(~, theta)
-
+            
             C = [1         0          0;
                  0  cos(theta)  sin(theta);
                  0 -sin(theta)  cos(theta)];
-        end 
-       
+        end
+        
         function C = C2_DCM(~, theta)
-
+            
             C = [cos(theta) 0 -sin(theta);
                  0          1           0;
                  sin(theta) 0  cos(theta)];
@@ -129,45 +125,33 @@ classdef AnimatedQuadcopter < handle
         
         function setDimensions(self)
             % If self.scale is changed, this function needs to be called
-            % again to implement the change.
+            % again to implement the change. Luckily we run this every time
+            % self.update(r,C) is called.
             self.hub.length = 0.3*self.scale;
             self.hub.width = 0.3*self.scale;
             self.hub.height = 0.1*self.scale;
             
             self.arm1.radius = 0.05*self.scale;
             self.arm1.height = sqrt(2)*self.scale;
-                        
+            
             self.arm2.radius = 0.05*self.scale;
             self.arm2.height = sqrt(2)*self.scale;
             
             self.prop1.baseRadius = 0.25*self.scale;
             self.prop1.length = 0;
-
+            
             self.prop2.baseRadius = 0.25*self.scale;
             self.prop2.length = 0;
-
+            
             self.prop3.baseRadius = 0.25*self.scale;
             self.prop3.length = 0;
             
             self.prop4.baseRadius = 0.25*self.scale;
             self.prop4.length = 0;
-            
-            % update only if a pose has been specified
-            if ~isempty(self.r) && ~isempty(self.C)
-                self.hub.updatePoints()
-                self.arm1.updatePoints()
-                self.arm2.updatePoints()
-                self.prop1.updatePoints()
-                self.prop2.updatePoints()
-                self.prop3.updatePoints()
-                self.prop4.updatePoints()
-                
-                self.update(self.r,self.C)
-            end
         end
-            
+        
     end
 end
-             
+
 
 

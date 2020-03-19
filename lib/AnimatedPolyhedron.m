@@ -62,12 +62,12 @@ classdef AnimatedPolyhedron < handle
             self.updatePoints()
             
             % Rotate and translate
-            boxRot = C_ba.'*self.polyPoints + r_zw_a;
+            polyRot = C_ba.'*self.polyPoints + r_zw_a;
             
             % Reshape into matrices compatible for surf(X,Y,Z) function
-            xRot = reshape(boxRot(1,:),3,[]);
-            yRot = reshape(boxRot(2,:),3,[]);
-            zRot = reshape(boxRot(3,:),3,[]);
+            xRot = reshape(polyRot(1,:),3,[]);
+            yRot = reshape(polyRot(2,:),3,[]);
+            zRot = reshape(polyRot(3,:),3,[]);
             
             % Update data
             self.figureHandle.XData = xRot;
@@ -87,14 +87,14 @@ classdef AnimatedPolyhedron < handle
             
             
             if ~isempty(self.A) && ~isempty(self.b)
-                V = lcon2vert(unique(A,'rows'),b);
+                V = lcon2vert(unique(self.A,'rows'),self.b);
             elseif ~isempty(self.vertices)
                 V = self.vertices();
             else
                 V = [[1;1;1],[-1;1;1],[1;-1;1],[-1;-1;1],[1;1;-1],[-1;1;-1],[1;-1;-1],[-1;-1;-1]].';
             end
             
-            k = convhull(V);
+            k = boundary(V);
             X = reshape(V(k,1),size(k,1),[]).';
             Y = reshape(V(k,2),size(k,1),[]).';
             Z = reshape(V(k,3),size(k,1),[]).';

@@ -1,5 +1,5 @@
 classdef AnimatedPolyhedron < handle
-    %ANIMATEDBOX  Creates a CONVEX polyhedron by specifiying either the
+    %ANIMATEDPOLYHEDRON  Creates a CONVEX polyhedron by specifiying either the
     %vertices or the A,b matrices corresponding to inequality set A*r <= b.
     properties
         % Position and attitude
@@ -7,9 +7,6 @@ classdef AnimatedPolyhedron < handle
         C
         
         % Visual properties
-        length
-        width
-        height
         vertices
         A
         b
@@ -19,17 +16,18 @@ classdef AnimatedPolyhedron < handle
         edgeAlpha
         
         % Working variables
-        polyPoints
         figureHandle
+        polyPoints
         
+    end
+    properties (Access = private)
+        A_poly
+        b_poly
     end
     
     methods
         function self = AnimatedPolyhedron()
             % Constructor - default properties
-            self.length = 1;
-            self.width = 1;
-            self.height = 1;
             self.faceColor = [0.5 0.5 0.5];
             self.edgeColor = [0 0 0];
             self.faceAlpha = 0.5;
@@ -43,36 +41,19 @@ classdef AnimatedPolyhedron < handle
             
             % Generate nominal points corresponding to dimensions;
             self.updatePoints()
-            
-            % Reshape intro matrices compatible for surf(X,Y,Z) function
-            X = reshape(self.polyPoints(1,:),3,[]);
-            Y = reshape(self.polyPoints(2,:),3,[]);
-            Z = reshape(self.polyPoints(3,:),3,[]);
-            
-            % Create plot
-            self.figureHandle = patch(X, Y, Z,'r');
-            
+                        
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba)
         end
         
         
         function update(self, r_zw_a, C_ba)
-            % Update geometry
-            self.updatePoints()
-            
+
             % Rotate and translate
             polyRot = C_ba.'*self.polyPoints + r_zw_a;
             
-            % Reshape into matrices compatible for surf(X,Y,Z) function
-            xRot = reshape(polyRot(1,:),3,[]);
-            yRot = reshape(polyRot(2,:),3,[]);
-            zRot = reshape(polyRot(3,:),3,[]);
-            
-            % Update data
-            self.figureHandle.XData = xRot;
-            self.figureHandle.YData = yRot;
-            self.figureHandle.ZData = zRot;
+            % Update data 
+            self.figureHandle.Vertices = polyRot.';
             self.figureHandle.FaceColor = self.faceColor;
             self.figureHandle.FaceAlpha = self.faceAlpha;
             self.figureHandle.EdgeAlpha = self.edgeAlpha;
@@ -85,45 +66,25 @@ classdef AnimatedPolyhedron < handle
         
         function updatePoints(self)
             
-            
             if ~isempty(self.A) && ~isempty(self.b)
-                V = lcon2vert(unique(self.A,'rows'),self.b);
+                self.A_poly = self.A;
+                self.b_poly = self.b;
             elseif ~isempty(self.vertices)
-                V = self.vertices();
+                V = self.vertices;
+                [self.A_poly,self.b_poly] = vert2lcon(V);
             else
                 V = [[1;1;1],[-1;1;1],[1;-1;1],[-1;-1;1],[1;1;-1],[-1;1;-1],[1;-1;-1],[-1;-1;-1]].';
+                [self.A_poly,self.b_poly] = vert2lcon(V);
             end
             
-            k = boundary(V);
-            X = reshape(V(k,1),size(k,1),[]).';
-            Y = reshape(V(k,2),size(k,1),[]).';
-            Z = reshape(V(k,3),size(k,1),[]).';
-            self.polyPoints = [X(:),Y(:),Z(:)].';
-                
-        end
-    end
-    methods (Access = private)
-        % Principle DCMS are used to assemble quadcopter.
-        function C = C1_DCM(~, theta)
+            self.figureHandle = plotregion(self.A_poly, self.b_poly);
             
-            C = [1         0          0;
-                0  cos(theta)  sin(theta);
-                0 -sin(theta)  cos(theta)];
+            self.polyPoints = self.figureHandle.Vertices.';
+            
         end
         
-        function C = C2_DCM(~, theta)
-            
-            C = [cos(theta) 0 -sin(theta);
-                0          1           0;
-                sin(theta) 0  cos(theta)];
-        end
         
-        function C =  C3_DCM(~, theta)
-            C = [ cos(theta) sin(theta) 0;
-                -sin(theta) cos(theta) 0;
-                0        0    1];
-        end
+       
     end
+    
 end
-
-

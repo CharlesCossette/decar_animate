@@ -31,7 +31,7 @@ for lv1=1:(m-2)
                 x=A([lv1 lv2 lv3],:)\b([lv1 lv2 lv3]);
                 if and(min((A*x-b))>-1e-6,min((A*x-b))<Inf)
                     X=[X,x];
-                    eq=[eq,[lv1 lv2 lv3]'];
+                    eq=[eq,[lv1 lv2 lv3].'];
                 end
             catch
             end
@@ -74,6 +74,7 @@ for lv1=1:m
         V = [V;V_k];
     end
 end
+V = -V;
 F = padcat(F{:});
 if n == 3
     view(3)

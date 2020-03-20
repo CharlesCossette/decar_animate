@@ -1,6 +1,8 @@
 classdef AnimatedPolyhedron < handle
     %ANIMATEDPOLYHEDRON  Creates a CONVEX polyhedron by specifiying either the
     %vertices or the A,b matrices corresponding to inequality set A*r <= b.
+    
+    % TODO treat input for vertices 
     properties
         % Position and attitude
         r

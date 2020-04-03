@@ -33,7 +33,23 @@ for lv1 = 1:5:length(r)
     pause(eps)
 end
 
-%% Test 4 - Change dimensions, change dimensions on the fly
+%% Test 3 - Customize mesh resolution
+load testData
+ani = Animation();
+ellp = AnimatedEllipsoid();
+ellp.meshResolution = 50;
+ellp.xRadius = 7.0711;
+ellp.yRadius = 4.3479;
+ellp.zRadius = 4.3479;
+ani.addElement(ellp);
+ani.build()
+C_ba =  [0.0000    0.7071    0.7071;
+        -0.7071    0.5000   -0.5000;
+        -0.7071   -0.5000    0.5000];
+ani.update([-10;5;5],C_ba);
+
+
+%% Test 5 - Change dimensions, change dimensions on the fly
 load testData
 ani = Animation();
 ellp = AnimatedEllipsoid();

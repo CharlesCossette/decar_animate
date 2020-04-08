@@ -11,8 +11,8 @@ classdef AnimatedTrace < handle
         target
         
         % TODO - add access to more properties
-        LineWidth
-        Color
+        lineWidth
+        color
         
         % Working variables
         figureHandle
@@ -26,8 +26,8 @@ classdef AnimatedTrace < handle
             self.R = [];
             self.target = targetElement;  
             self.firstUpdateFlag = true;
-            self.LineWidth = 2;
-            self.Color = 'red';
+            self.lineWidth = 2;
+            self.color = 'red';
         end
         
         function plot(self, r_zw_a, C_ba)
@@ -40,7 +40,7 @@ classdef AnimatedTrace < handle
             
             % Create trace figure object
             hold on
-            self.figureHandle = plot3([0;0],[0;0],[0;0],'LineWidth',self.LineWidth,'Color',self.Color);
+            self.figureHandle = plot3([0;0],[0;0],[0;0],'LineWidth',self.lineWidth,'Color',self.color);
             hold off
 
         end

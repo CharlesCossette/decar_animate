@@ -13,6 +13,8 @@ classdef AnimatedBox < handle
         height
         faceColor
         edgeColor
+        faceAlpha
+        edgeAlpha
         
         % Working variables
         boxPoints
@@ -26,8 +28,10 @@ classdef AnimatedBox < handle
             self.length = 1;
             self.width = 1;
             self.height = 1;
-            self.faceColor = 'flat';  
-            self.edgeColor = [0;0;0];
+            self.faceColor = 'flat';
+            self.edgeColor = [0 0 0];
+            self.faceAlpha = 1;
+            self.edgeAlpha = 1;
         end
         
         function plot(self,r_zw_a,C_ba)
@@ -45,8 +49,6 @@ classdef AnimatedBox < handle
             
             % Create plot
             self.figureHandle = surf(X, Y, Z);
-            self.figureHandle.FaceColor = self.faceColor;
-            self.figureHandle.EdgeColor = self.edgeColor;
             
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba)
@@ -54,8 +56,8 @@ classdef AnimatedBox < handle
  
         
         function update(self, r_zw_a, C_ba)
-            % Update nominal box points if dimensions have changed.
-            self.updatePoints();
+            % Update geometry
+            self.updatePoints()
             
             % Rotate and translate
             boxRot = C_ba.'*self.boxPoints + r_zw_a;
@@ -70,22 +72,21 @@ classdef AnimatedBox < handle
             self.figureHandle.YData = yRot;
             self.figureHandle.ZData = zRot;
             self.figureHandle.FaceColor = self.faceColor;
+            self.figureHandle.FaceAlpha = self.faceAlpha;
+            self.figureHandle.EdgeAlpha = self.edgeAlpha;
             self.figureHandle.EdgeColor = self.edgeColor;
             
             % Store for reference
             self.r = r_zw_a;
             self.C = C_ba;
         end
-        
-    end
-     methods (Access = private)
+
         function updatePoints(self)
             % Nominal box points centered at 0,0,0 used to constuct surf
             xRect = [-1  1  1 1 -1 -1  1 -1 -1; -1  1 1  1 -1 -1  1  1 1]*self.length/2;
             yRect = [-1 -1  1 1  1  1  1  1  1; -1 -1 1 -1 -1 -1 -1  1 1]*self.width/2;
             zRect = [-1 -1 -1 1  1 -1 -1 -1  1;  1  1 1  1  1 -1 -1 -1 1]*self.height/2;
             self.boxPoints   = [xRect(:).' ; yRect(:).' ; zRect(:).'];
-            
         end
      end
 end

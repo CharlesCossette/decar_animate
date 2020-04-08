@@ -1,4 +1,4 @@
-classdef AnimatedCylinder < handle
+classdef AnimatedSphere < handle
     properties
         % Position and attitude
         r
@@ -6,7 +6,6 @@ classdef AnimatedCylinder < handle
         
         % Visual properties
         radius
-        height
         meshResolution
         faceColor
         edgeColor
@@ -15,16 +14,12 @@ classdef AnimatedCylinder < handle
         
         % Working variables
         figureHandle
-        cylPoints
-        
-        % Face color
-        faceColor
+        spherePoints
     end
     
     methods
-        function self = AnimatedCylinder()
+        function self = AnimatedSphere()
             self.radius = 1;
-            self.height = 3;    
             self.meshResolution = 10;
             self.faceColor = 'flat';
             self.edgeColor = [0 0 0];
@@ -40,16 +35,13 @@ classdef AnimatedCylinder < handle
             % Create cylinder with radius and mesh resolution. 
             % NOTE - radius can actually be a n x 1 column matrix of points
             % which define a varying radius profile.
-            [xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
-            
-            % Stretch to correct height and center at centroid.
-            zCyl = zCyl.*self.height - self.height/2;
+            [X, Y, Z] = ellipsoid(0,0,0,self.radius,self.radius,self.radius,self.meshResolution);  
             
             % Store as wide matrix
-            self.cylPoints = [xCyl(:).';yCyl(:).';zCyl(:).'];
+            self.spherePoints = [X(:).';Y(:).';Z(:).'];
             
             % Create figure
-            self.figureHandle = surf(xCyl,yCyl,zCyl);
+            self.figureHandle = surf(X,Y,Z);
             
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba);
@@ -61,17 +53,17 @@ classdef AnimatedCylinder < handle
             self.updatePoints()
             
             % Rotate and translate
-            cylPointsRot = C_ba.'*self.cylPoints + r_zw_a;
+            spherePointsRot = C_ba.'*self.spherePoints + r_zw_a;
             
             % Reshape intro matrix compatible with surf(X,Y,Z) function
-            xCyl = reshape(cylPointsRot(1,:),[],self.meshResolution + 1);
-            yCyl = reshape(cylPointsRot(2,:),[],self.meshResolution + 1);
-            zCyl = reshape(cylPointsRot(3,:),[],self.meshResolution + 1);
+            xSph = reshape(spherePointsRot(1,:),[],self.meshResolution + 1);
+            ySph = reshape(spherePointsRot(2,:),[],self.meshResolution + 1);
+            zSph = reshape(spherePointsRot(3,:),[],self.meshResolution + 1);
             
             % Update data
-            self.figureHandle.XData = xCyl;
-            self.figureHandle.YData = yCyl;
-            self.figureHandle.ZData = zCyl;
+            self.figureHandle.XData = xSph;
+            self.figureHandle.YData = ySph;
+            self.figureHandle.ZData = zSph;
             
             % Update visual properties
             self.figureHandle.FaceColor = self.faceColor;
@@ -88,15 +80,12 @@ classdef AnimatedCylinder < handle
             % NOTE - radius can actually be a n x 1 column matrix of points
             % which define a varying radius profile.
             
-            % TODO: unneccessary calling of cylinder() every time?
-            % This might actually significantly expect speed.
-            [xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
-
-            % Stretch to correct height and center at centroid.
-            zCyl = zCyl.*self.height - self.height/2;
+            % TODO: unneccessary calling of ellipsoid() every time?
+            % This might actually significantly effect speed.
+            [X, Y, Z] = ellipsoid(0,0,0,self.radius,self.radius,self.radius,self.meshResolution);   
 
             % Store as wide matrix
-            self.cylPoints = [xCyl(:).';yCyl(:).';zCyl(:).'];
+            self.spherePoints = [X(:).';Y(:).';Z(:).'];
         end
      end
 end

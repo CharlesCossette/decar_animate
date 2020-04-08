@@ -46,7 +46,7 @@ classdef Animation < handle
             % Now that we have found the next available index, start
             % creating copies.
             if exist('numberOfCopies','var')
-                for lv1 = ind + 1:numberOfCopies
+                for lv1 = ind : ind + numberOfCopies - 1
                     self.elements.(strcat(className,num2str(lv1)))...
                                                 = self.copyObject(element);
                 end

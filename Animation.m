@@ -55,6 +55,9 @@ classdef Animation < handle
         
         function build(self)
             % Initialize all the graphic elements and create figure
+            if isempty(self.elements)
+                error('You must add at least one element before building.')
+            end
             
             % Get current axes (if they exist, will create one otherwise)
             self.axesHandle = gca;

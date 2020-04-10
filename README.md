@@ -4,6 +4,11 @@
 [TOC]
 
 ## Setup
+All you need to do is add the entire `decar_animate` folder to the Matlab path. This can be done a variety of ways, the simplest being to right-click on the the folder in the Matlab folder explorer and choosing
+
+    Add to Path > Selected Folder and Subfolders
+
+### Adding as a git submodule
 It is probably convenient to add this repo as a `submodule` for whatever other main repo you are using for your project. To do this, go to your main repo directory, open a terminal/git command lind and type
 
 

@@ -1,5 +1,6 @@
 classdef Animation < handle
     % TODO - check if forgot to build.
+    % TODO - dummy-proof the animated trace!!
     properties
         figureNumber
         elements

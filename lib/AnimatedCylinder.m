@@ -17,8 +17,6 @@ classdef AnimatedCylinder < handle
         figureHandle
         cylPoints
         
-        % Face color
-        faceColor
     end
     
     methods

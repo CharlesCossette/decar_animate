@@ -7,7 +7,6 @@ classdef AnimatedTagQuad < AnimatedQuadcopter
     
     methods
         function self = AnimatedTagQuad()
-            % TODO: include all the functions from the superclass
             self = self@AnimatedQuadcopter;
             
             % Add arm holding the tag
@@ -36,26 +35,25 @@ classdef AnimatedTagQuad < AnimatedQuadcopter
             
             hold off
             
-            % TODO: update only if a oneTagQuad figure handle exists
-            % Update only if a pose has been specified.
-            % We do not recall the update method to prevent recalling the
-            % update method from the super class as well.
+            % This is done instead of calling the self.update function to
+            % prevent calling the super class's update function again, as
+            % it was already called in the super class's plot function.
             if ~isempty(self.r) && ~isempty(self.C)
-                % Tag
-                self.tag.updatePoints()
-                r_tz_b  = [ 0;  0; (self.tag.height+self.hub.height)/2+self.tagArm.height];
-                r_tz_a  = self.C.'*r_tz_b + self.r;
-                self.tag.update(r_tz_a, self.C)
-
-                % Arm Tag
-                self.tagArm.updatePoints()
-                r_az_b  = [ 0;  0; (self.tagArm.height+self.hub.height)/2];
-                r_az_a  = self.C.'*r_az_b + self.r;
-                self.tagArm.update(r_az_a, self.C)
+                self.updateTags(r_zw_a, C_ba)
             end
         end
         
         function update(self, r_zw_a, C_ba)            
+            self.updateTags(r_zw_a, C_ba)
+            
+            % call the update method from the super class
+            update@AnimatedQuadcopter(self, r_zw_a, C_ba)
+        end
+        
+    end
+    
+    methods (Access = private)
+        function updateTags(self, r_zw_a, C_ba)
             self.setDimensionsTags()
             
             % Tag
@@ -67,14 +65,8 @@ classdef AnimatedTagQuad < AnimatedQuadcopter
             r_az_b  = [ 0;  0; (self.tagArm.height+self.hub.height)/2];
             r_az_a  = C_ba.'*r_az_b + r_zw_a;
             self.tagArm.update(r_az_a, C_ba)
-            
-            % call the update method from the super class
-            update@AnimatedQuadcopter(self, r_zw_a, C_ba)
         end
         
-    end
-    
-    methods (Access = private)
         function setDimensionsTags(self)
             % If self.scale is changed, this function needs to be called
             % again to implement the change.

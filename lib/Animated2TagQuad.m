@@ -1,12 +1,10 @@
 classdef Animated2TagQuad < AnimatedQuadcopter
     % ---------------------------------------------------------------------
     % Quadcopter visual model - an element of elements.
-    % Takes as input the location of the seconadry w.r.t. the base tag in 
-    %   the body frame; i.e., r_iasti_b.
+    % Includes property of the  location of the seconadry w.r.t. the base 
+    %   tag in the body frame; i.e., r_iasti_b.
     % Supports varying tag positions in the x-y plane. 
     % TODO: 1) Consider the z-axis entry.
-    %       2) Fix the bug that occurs when adding 2TagQuads of the same 
-    %          r_iasti_b using addElement(quad, n).
     % ---------------------------------------------------------------------
     properties
         tagArm1
@@ -19,10 +17,10 @@ classdef Animated2TagQuad < AnimatedQuadcopter
     end
     
     methods
-        function self = Animated2TagQuad(r_iasti_b)
+        function self = Animated2TagQuad()
             self = self@AnimatedQuadcopter;
             
-            self.r_iasti_b = r_iasti_b;
+            self.r_iasti_b = [1;1]*self.scale;
             
             % Add arm holding the tag1
             self.tagArm1        = AnimatedCylinder();

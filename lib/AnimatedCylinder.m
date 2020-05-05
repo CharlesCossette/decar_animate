@@ -16,6 +16,7 @@ classdef AnimatedCylinder < handle
         % Working variables
         figureHandle
         cylPoints
+        
     end
     
     methods

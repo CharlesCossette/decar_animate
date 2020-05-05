@@ -24,11 +24,11 @@ classdef AnimatedHusky < handle
             % TODO - parameterize relative component sizing.
             self.scale = 1;
 
-            % Add center "hub" or "base" of quadcopter.
+            % Add center "hub" or "base" of vehicle.
             self.hub = AnimatedBox();
             self.hub.faceColor = [1 1 0]*0.9;
             
-            % Add two arms which link opposing props.
+            % Add wheels.
             self.wheel1 = AnimatedCylinder();
             self.wheel2 = AnimatedCylinder();
             self.wheel3 = AnimatedCylinder();
@@ -74,7 +74,8 @@ classdef AnimatedHusky < handle
             else
                 radius = self.wheel1.radius;
             end
-            % Props
+            
+            % Wheels
             r_w1z_b  = [ (0.5*self.hub.length - radius);  (0.5*self.hub.width + self.wheel1.height/2); -self.hub.height/2];
             r_w2z_b  = [ -(0.5*self.hub.length - radius);  (0.5*self.hub.width + self.wheel1.height/2); -self.hub.height/2];
             r_w3z_b  = [ (0.5*self.hub.length - radius);  -(0.5*self.hub.width + self.wheel1.height/2); -self.hub.height/2];
@@ -98,7 +99,7 @@ classdef AnimatedHusky < handle
     end
    
     methods (Access = private)
-        % Principle DCMS are used to assemble quadcopter.
+        % Principle DCMS are used to assemble vehicle.
         function C = C1_DCM(~, theta)
             
             C = [1         0          0;

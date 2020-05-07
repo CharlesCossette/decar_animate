@@ -47,9 +47,9 @@ classdef Animated2TagQuad < AnimatedQuadcopter
             % BUILD - this function gets called during the animation build.
             % it is what actually creates the graphic object in the first
             % place.             
-            hold on
             
             self.tagArm1.plot(r_zw_a, C_ba);
+            hold on
             self.tagArm2.plot(r_zw_a, C_ba);
             self.tag1.plot(r_zw_a, C_ba);
             self.tag2.plot(r_zw_a, C_ba);

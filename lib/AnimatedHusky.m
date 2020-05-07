@@ -47,8 +47,9 @@ classdef AnimatedHusky < handle
             
             % For an element of elements, sub-elements are added as
             % properties of this class.
-            hold on
+            
             self.hub.plot(r_zw_a, C_ba);
+            hold on
             self.wheel1.plot(r_zw_a, C_ba);
             self.wheel2.plot(r_zw_a, C_ba);
             self.wheel3.plot(r_zw_a, C_ba);

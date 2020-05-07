@@ -36,7 +36,7 @@ classdef AnimatedTrace < handle
             % place.
             
             % For this class, we are fed r and C matrices anyways, but they
-            % do nothing since we are getting
+            % do nothing since we are getting r,C info frmo targetElement
             
             % Create trace figure object
             hold on

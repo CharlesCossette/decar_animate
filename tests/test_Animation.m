@@ -49,3 +49,34 @@ assert(ani.elements.AnimatedBox4.width == box.width)
 assert(ani.elements.AnimatedBox4.length == box.length)
 assert(ani.elements.AnimatedBox4.height == box.height)
 
+%% Test 4 - Test multiple animations on same plot - hold off
+% Should see only one box
+ani1 = Animation();
+ani2 = Animation();
+
+hold off
+ani1.addElement(AnimatedBox)
+ani1.build();
+ani1.update([1;2;3],eye(3));
+hold off
+ani2.addElement(AnimatedBox)
+ani2.build()
+
+% Checks for right amount of graphics objects
+assert(length(findall(gca)) == 2);
+
+%% Test 5 - Test multiple animations on same plot - hold on
+% Should see two boxes
+ani1 = Animation();
+ani2 = Animation();
+
+hold off
+ani1.addElement(AnimatedBox)
+ani1.build();
+ani1.update([1;2;3],eye(3));
+hold on
+ani2.addElement(AnimatedBox)
+ani2.build()
+hold off
+% Checks for right amount of graphics objects
+assert(length(findall(gca)) == 3);

@@ -79,6 +79,8 @@ classdef AnimatedPolyhedron < handle
                 [self.A_poly,self.b_poly] = vert2lcon(V);
             end
             
+            % This is where the actual plotting happens. Complicated
+            % function in the src folder.
             self.figureHandle = plotregion(self.A_poly, self.b_poly);
             
             self.polyPoints = self.figureHandle.Vertices.';

@@ -81,6 +81,10 @@ if n == 3
 else
     view(2)
 end
+if ~ishold
+    % Apparently need to force clear the figure when hold off..
+    cla
+end
 p = patch('Vertices',V, 'Faces',F,'FaceColor','r');
 end
 

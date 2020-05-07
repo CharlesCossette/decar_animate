@@ -63,7 +63,7 @@ classdef Animation < handle
             % Get current axes (if they exist, will create one otherwise)
             self.axesHandle = gca;
             % Clear content on axes
-            cla
+           % cla
             
             % 3D view default. This can be changed after the build.
             % axis temporarily set to some small frame as a hack. Some bug
@@ -80,7 +80,7 @@ classdef Animation < handle
             numElements = numel(elementNames);
             
             % Loop through each element object and run plot(r,C) method
-            hold off
+            %hold off
             elementObj = self.elements.(elementNames{1});
             elementObj.plot([0;0;0], eye(3))
             hold(self.axesHandle, 'on')     

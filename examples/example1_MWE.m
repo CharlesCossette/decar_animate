@@ -1,5 +1,6 @@
 % Example 1 - Minimum Working Example
-
+addpath('..');
+addpath('../lib');
 % Instantiate an animation object
 ani = Animation();
 

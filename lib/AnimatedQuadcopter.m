@@ -48,8 +48,9 @@ classdef AnimatedQuadcopter < handle
             
             % For an element of elements, sub-elements are added as
             % properties of this class.
-            hold on
+            
             self.hub.plot(r_zw_a, C_ba);
+            hold on
             self.arm1.plot(r_zw_a, C_ba);
             self.arm2.plot(r_zw_a, C_ba);
             self.prop1.plot(r_zw_a, C_ba);

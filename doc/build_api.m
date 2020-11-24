@@ -23,8 +23,6 @@ for lv1 = 1:numel(file_list)
     cut_location = strfind(help_string, 'Documentation for');
     help_string = help_string(1:cut_location-1);
     
-
-    
     header = ['## ', m_file_name, '\n'];
     
     fprintf(file_out, header);
@@ -44,7 +42,7 @@ for lv1 = 1:numel(file_list)
         fprintf(file_out,['![Picture of ',m_file_name,'](./doc/',m_file_name,'.png)\n']);
     catch
     end
-    
+
 end
     
 fclose(file_out);

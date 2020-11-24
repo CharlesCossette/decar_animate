@@ -1,4 +1,18 @@
 classdef AnimatedEllipsoid < handle
+% AnimatedEllipsoid Creates a simple ellipsoid.
+%
+% *AnimatedEllipsoid Properties:*
+%
+%    xRadius - [float] radius in x direction
+%    yRadius - [float] radius in y direction
+%    zRadius - [float] radius in z direction
+%    faceAlpha - [float] Transparency of box on scale of 0 (transparent) to
+%    1. 
+%    edgeAlpha - [float] Transparency of edges on scale of 0 (transparent)
+%    to 1. 
+%    faceColor - [1 x 3 float] RGB triplet specifying face color. 
+%    edgeColor - [1 x 3 float] RGB triplet specifying edge color. 
+%    meshResolution - [int] Amount of segments in the circle.
     properties
         % Position and attitude
         r
@@ -37,8 +51,6 @@ classdef AnimatedEllipsoid < handle
             % place.
             
             % Create cylinder with radius and mesh resolution. 
-            % NOTE - radius can actually be a n x 1 column matrix of points
-            % which define a varying radius profile.
             [X, Y, Z] = ellipsoid(0,0,0,self.xRadius,self.yRadius,self.zRadius,self.meshResolution);  
             
             % Store as wide matrix

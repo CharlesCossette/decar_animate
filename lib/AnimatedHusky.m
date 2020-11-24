@@ -1,21 +1,16 @@
 classdef AnimatedHusky < handle
 % Clearpath Husky Ground vehicle visual model.
     properties
-        % Position and attitude
         r
         C
+       
+        hub % [AnimatedBox]
+        wheel1 % [AnimatedCylinder]
+        wheel2 % [AnimatedCylinder]
+        wheel3 % [AnimatedCylinder]
+        wheel4 % [AnimatedCylinder]
         
-        % Sub elements
-        hub
-        wheel1
-        wheel2
-        wheel3
-        wheel4
-        
-        % Visual properties
-        scale
-        % propWidth
-        % hubWidth ... etc TODO
+        scale % [float] Set to 1 for dimensionally-accurate husky.
     end
     
     methods

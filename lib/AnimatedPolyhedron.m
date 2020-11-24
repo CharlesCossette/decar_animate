@@ -4,20 +4,17 @@ classdef AnimatedPolyhedron < handle
     
     % TODO treat input for vertices 
     properties
-        % Position and attitude
         r
         C
         
-        % Visual properties
-        vertices
-        A
-        b
-        faceColor
-        edgeColor
-        faceAlpha
-        edgeAlpha
+        vertices % [3 x N float] Coordinates of vertices of polyhedron.
+        A % Polyhedron matrix A where Ax <= b.
+        b % Polyhedron matrix b where Ax <= b.
+        faceColor % [1 x 3 float] RGB triplet specifying face color. 
+        edgeColor % [1 x 3 float] RGB triplet specifying face color. 
+        faceAlpha % [float] Transparency of box on scale of 0 (transparent) to 1. 
+        edgeAlpha % [float] Transparency of edges on scale of 0 (transparent) to 1. 
         
-        % Working variables
         figureHandle
         polyPoints
         

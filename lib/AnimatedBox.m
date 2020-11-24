@@ -1,25 +1,22 @@
 classdef AnimatedBox < handle
-%ANIMATEDBOX  Creates a simple 1x1x1 box/cube.
-% The face color, edge color, and dimensions can all be modified be
+% AnimatedBox Creates a simple 1x1x1 box/cube.
+% The dimensions face color, edge color, and dimensions can all be modified be
 % accessing the corresponding properties.
+
     properties
-        % Position and attitude
         r
         C
         
-        % Visual properties
-        length
-        width
-        height
-        faceColor
-        edgeColor
-        faceAlpha
-        edgeAlpha
+        length % [float] x-dimension of box. 
+        width % [float] y-dimension of box. 
+        height % [float] z-dimension of box. 
+        faceColor % [1 x 3 float] RGB triplet specifying face color. 
+        edgeColor % [1 x 3 float] RGB triplet specifying face color. 
+        faceAlpha % [float] Transparency of box on scale of 0 (transparent) to 1. 
+        edgeAlpha % [float] Transparency of edges on scale of 0 (transparent) to 1. 
         
-        % Working variables
         boxPoints
         figureHandle
-        
     end
     
     methods 

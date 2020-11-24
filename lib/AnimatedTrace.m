@@ -4,20 +4,14 @@ classdef AnimatedTrace < handle
     % traces out dynamically the target's trajectory as it travels along
     % it.
     properties
-        % History of positions matrix [3 x N]
         R
+ 
+        target % [Animated*] Object to track        
+        lineWidth % [float] width of trace line.
+        color % [1 x 3 float] RGB triplet of line color.
 
-        % Object to track
-        target
-        
-        % TODO - add access to more properties
-        lineWidth
-        color
-        
-        % Working variables
         figureHandle
         firstUpdateFlag
-
     end
     
     methods

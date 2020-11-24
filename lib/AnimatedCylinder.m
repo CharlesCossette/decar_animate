@@ -1,35 +1,20 @@
 classdef AnimatedCylinder < handle
 % AnimatedCylinder Creates a simple cylinder.
-%
-% *AnimatedCylinder Properties:*
-%
-%    radius - [float] or [1 x n float] fixed radius or radius profile. 
-%    height - [float] z-dimension of cylinder. 
-%    faceAlpha - [float] Transparency of box on scale of 0 (transparent) to
-%    1. 
-%    edgeAlpha - [float] Transparency of edges on scale of 0 (transparent)
-%    to 1. 
-%    faceColor - [1 x 3 float] RGB triplet specifying face color. 
-%    edgeColor - [1 x 3 float] RGB triplet specifying edge color. 
-%    meshResolution - [int] Amount of segments in the circle.
+
     properties
-        % Position and attitude
         r
         C
         
-        % Visual properties
-        radius
-        height
-        meshResolution
-        faceColor
-        edgeColor
-        faceAlpha
-        edgeAlpha
-        
-        % Working variables
+        radius % [float] or [1 x n float] fixed radius or radius profile. 
+        height % [float] z-dimension of cylinder. 
+        meshResolution % [int] Amount of segments in the circle.
+        faceColor % [1 x 3 float] RGB triplet specifying face color. 
+        edgeColor % [1 x 3 float] RGB triplet specifying face color. 
+        faceAlpha % [float] Transparency of box on scale of 0 (transparent) to 1. 
+        edgeAlpha % [float] Transparency of edges on scale of 0 (transparent) to 1. 
+
         figureHandle
         cylPoints
-        
     end
     
     methods

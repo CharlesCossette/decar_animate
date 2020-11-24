@@ -5,12 +5,12 @@ classdef AnimatedSphere < handle
         C
         
         % Visual properties
-        radius
-        meshResolution
-        faceColor
-        edgeColor
-        faceAlpha
-        edgeAlpha
+        radius % [float] Radius of the sphere.
+        meshResolution % [int] Amount of segments in the circle.
+        faceColor % [1 x 3 float] RGB triplet specifying face color. 
+        edgeColor % [1 x 3 float] RGB triplet specifying face color. 
+        faceAlpha % [float] Transparency of box on scale of 0 (transparent) to 1. 
+        edgeAlpha % [float] Transparency of edges on scale of 0 (transparent) to 1. 
         
         % Working variables
         figureHandle

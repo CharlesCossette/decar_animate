@@ -18,15 +18,27 @@ for lv1 = 1:numel(file_list)
     % Get the .m file name string without the ".m" file extension
     m_file_name = erase(m_file,'.m');
     
-    % Get the help documentation in a string
-    help_string = help(m_file);
-    cut_location = strfind(help_string, 'Documentation for');
-    help_string = help_string(1:cut_location-1);
+    % Get class description help documentation.
+    desc_help_string = help(m_file);
+    cut_location = strfind(desc_help_string, 'Documentation for');
+    desc_help_string = desc_help_string(1:cut_location-1);
     
     header = ['## ', m_file_name, '\n'];
     
     fprintf(file_out, header);
-    fprintf(file_out, [help_string, '\n']);
+    fprintf(file_out, [desc_help_string, '\n']);
+    
+    % Get Property discriptions
+    fprintf(file_out,['#### **',m_file_name,' Properties**:\n\n']);
+    props = properties(m_file_name);
+    for lv2 = 1:numel(props)
+        prop_help_string = help([m_file_name,'.',props{lv2}]);
+        prop_help_exists = (numel(strfind(prop_help_string,'is a property.')) == 0);
+        if prop_help_exists
+            fprintf(file_out, [prop_help_string,'\n']);
+        end
+    end
+
     
     % CUSTOM FOR decar_animate
     % Get a picture of the object

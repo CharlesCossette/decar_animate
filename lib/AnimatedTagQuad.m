@@ -1,8 +1,8 @@
 classdef AnimatedTagQuad < AnimatedQuadcopter
     % Quadcopter visual model - an element of elements.
     properties
-        tagArm
-        tag
+        tagArm % [Animated Cylinder]
+        tag % [Animated Box]
     end
     
     methods

@@ -1,24 +1,21 @@
 classdef AnimatedCone < handle
-    %ANIMATEDCONE Creates a cone element, or a "chopped" cone element by
-    %specifying the two radii at each end of the cone, and the length of
-    %the cone. 
-    
+%ANIMATEDCONE Creates a cone element, or a "chopped" cone element by
+% specifying the two radii at each end of the cone, and the length of
+% the cone. 
+
     properties
-        % Position and attitude
         r
         C
         
-        % Visual properties
-        baseRadius
-        tipRadius
-        length
-        faceColor
-        faceAlpha
-        edgeAlpha
-        edgeColor
-        meshResolution
+        baseRadius % [float] radius of circle at one end of the cone.
+        tipRadius % [float] radius of circle at the other end of the cone.
+        length % [float] length of the cone
+        faceColor % [float] Transparency of box on scale of 0 (transparent) to 1. 
+        faceAlpha % [float] Transparency of edges on scale of 0 (transparent) to 1. 
+        edgeAlpha % [1 x 3 float] RGB triplet specifying face color. 
+        edgeColor % [1 x 3 float] RGB triplet specifying edge color. 
+        meshResolution % [int] Amount of segments in the circle.
         
-        % Internal variables
         conePoints        
         figureHandle
     end

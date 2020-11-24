@@ -1,11 +1,10 @@
 classdef Animated2TagQuad < AnimatedQuadcopter
-    % ---------------------------------------------------------------------
-    % Quadcopter visual model - an element of elements.
-    % Includes property of the  location of the seconadry w.r.t. the base 
-    %   tag in the body frame; i.e., r_iasti_b.
-    % Supports varying tag positions in the x-y plane. 
-    % TODO: 1) Consider the z-axis entry.
-    % ---------------------------------------------------------------------
+% Quadcopter visual model - an element of elements.
+% Includes property of the  location of the seconadry w.r.t. the base 
+%   tag in the body frame; i.e., r_iasti_b.
+% Supports varying tag positions in the x-y plane. 
+% TODO: 1) Consider the z-axis entry.
+
     properties
         tagArm1
         tagArm2

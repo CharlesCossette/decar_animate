@@ -1,21 +1,18 @@
 classdef AnimatedQuadcopter < handle
-    % Quadcopter visual model - an element of elements.
+% Quadcopter visual model - an element of elements.
     properties
-        % Position and attitude
         r
         C
         
-        % Sub elements
-        hub
-        arm1
-        arm2
-        prop1
-        prop2
-        prop3
-        prop4
+        hub % [AnimatedBox]
+        arm1 % [AnimatedCylinder]
+        arm2 % [AnimatedCylinder]
+        prop1 % [AnimatedCone]
+        prop2 % [AnimatedCone]
+        prop3 % [AnimatedCone]
+        prop4 % [AnimatedCone]
         
-        % Visual properties
-        scale
+        scale % [float] A scale of 1 makes the opposite prop-to-prop distance 1.
         % propWidth
         % hubWidth ... etc TODO
     end

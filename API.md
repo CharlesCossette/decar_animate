@@ -283,3 +283,13 @@ Help for AnimatedTagQuad/scale is inherited from superclass ANIMATEDQUADCOPTER
 
  color -  [1 x 3 float] RGB triplet of line color.
 
+## AnimatedTriad
+ ANIMATEDTRIAD Creates a classic "coordinate axes" triad consisting of red,
+  green, blue arrows, all orthogonal to each other.
+
+    
+#### **AnimatedTriad Properties**:
+
+ length -  [float] length of the arrows.
+
+![Picture of AnimatedTriad](./doc/AnimatedTriad.png)

@@ -1,17 +1,15 @@
 classdef AnimatedTriad < handle
+%ANIMATEDTRIAD Creates a classic "coordinate axes" triad consisting of red,
+% green, blue arrows, all orthogonal to each other.
     properties
-        % Position and attitude
         r
         C
+
+        length % [float] length of the arrows.
         
-        % Visual properties
-        length
-        
-        % Working variables
         xHandle
         yHandle
-        zHandle
-        
+        zHandle        
     end
     
     methods

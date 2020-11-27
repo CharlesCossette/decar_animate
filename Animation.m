@@ -92,6 +92,9 @@ classdef Animation < handle
             hold off
             
             % 3D view default. This can be changed after the build.
+            xticks('auto')
+            yticks('auto')
+            zticks('auto')
             axis equal
             axis vis3d
             grid on

@@ -1,6 +1,6 @@
 # decar-animate
-![](./doc/AnimatedHusky.png){width=400 height=300}
-![](./doc/AnimatedQuadcopter.png){width=400 height=300}
+![](./doc/AnimatedHusky.png){width=100 height=75}
+![](./doc/AnimatedQuadcopter.png){width=100 height=75}
 ## Table of Contents
 [TOC]
 

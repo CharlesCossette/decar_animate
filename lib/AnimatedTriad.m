@@ -26,19 +26,21 @@ classdef AnimatedTriad < handle
             % NOTE - radius can actually be a n x 1 column matrix of points
             % which define a varying radius profile.
             %[xCyl, yCyl, zCyl] = cylinder(self.radius, self.meshResolution);
-            
+            is_hold = ishold;
+            hold on
             self.xHandle = quiver3(0,0,0,self.length,0,0);
             self.xHandle.LineWidth = 2;
             self.xHandle.Color = 'red';
-            hold on
             self.yHandle = quiver3(0,0,0,0,self.length,0);
             self.yHandle.LineWidth = 2;
             self.yHandle.Color = 'green';
             self.zHandle = quiver3(0,0,0,0,0,self.length);
             self.zHandle.LineWidth =2 ;
             self.zHandle.Color = 'blue';
-            hold off
-
+            if ~is_hold
+                hold off
+            end
+            
             % Rotate and translate using update()
             self.update(r_zw_a, C_ba);
 
